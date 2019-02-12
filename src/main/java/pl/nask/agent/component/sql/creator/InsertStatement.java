@@ -1,6 +1,6 @@
 package pl.nask.agent.component.sql.creator;
 
-import pl.nask.agent.component.branch.get.Getters;
+import pl.nask.agent.component.reflection.ReflectedGetters;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +9,13 @@ import java.util.Set;
 
 public class InsertStatement {
 
-    public static String buildInsertStatement(String tableName, Map<String, Object> fieldToValueMap) {
+    public static String getInsertObjectSQL(Object object) {
+        String tableName = object.getClass().getSimpleName().toLowerCase();
+        Map<String, Object> map = ReflectedGetters.doGetters(object);
+        return buildInsertStatement(tableName, map);
+    }
+
+    private static String buildInsertStatement(String tableName, Map<String, Object> fieldToValueMap) {
 
         StringBuilder sql = new StringBuilder("INSERT INTO " + tableName + " (");
         Set<String> set = fieldToValueMap.keySet();
@@ -37,13 +43,6 @@ public class InsertStatement {
         sql.append(");");
 
         return sql.toString();
-    }
-
-    public static String getInsertObjectSQL(Object obj) {
-
-        String tableName = obj.getClass().getSimpleName().toLowerCase();
-        Map<String, Object> map = Getters.doGetters(obj);
-        return buildInsertStatement(tableName, map);
     }
 
 }

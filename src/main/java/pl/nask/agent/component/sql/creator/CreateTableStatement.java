@@ -1,17 +1,26 @@
 package pl.nask.agent.component.sql.creator;
 
-import pl.nask.agent.component.object.ClassAtomizer;
-import pl.nask.agent.component.object.exception.UnsupportedSqlTypeException;
+import pl.nask.agent.component.reflection.ClassReflectionDispatcher;
+import pl.nask.agent.component.exception.UnsupportedSqlTypeException;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class CreateTableStatement {
 
+    public static String getCreateTableSQL(Class clazz) {
+
+        String tableName = clazz.getSimpleName().toLowerCase();
+        List<String> types = ClassReflectionDispatcher.getListOfClassTypes(clazz);
+        List<String> names = ClassReflectionDispatcher.getListOfFieldNames(clazz);
+        types = convertJavaTypesToSqlTypes(types);
+        return CreateTableStatement.buildCreateSQL(tableName, types, names);
+    }
+
     private static String buildCreateSQL(String tableName, List<String> sqlTypes, List<String> fieldNames) {
 
         StringBuilder sql = new StringBuilder("CREATE TABLE IF NOT EXISTS " + tableName + " (");
-        sql.append("id INTEGER PRIMARY KEY, ");//<-- TODO  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        sql.append("id INTEGER PRIMARY KEY, ");
         for (int i = 0; i < fieldNames.size(); i++) {
             sql.append(fieldNames.get(i))
                     .append(" ")
@@ -24,33 +33,33 @@ public class CreateTableStatement {
         return sql.toString();
     }
 
-    public static String getCreateTableSQL(Object obj) {
-
-        String tableName = obj.getClass().getSimpleName().toLowerCase();
-        List<String> types = ClassAtomizer.getListOfClassTypes(obj);
-        List<String> names = ClassAtomizer.getListOfFieldNames(obj);
-        types = convertJavaTypesToSqlTypes(types);
-        return CreateTableStatement.buildCreateSQL(tableName, types, names);
-    }
-
     private static List<String> convertJavaTypesToSqlTypes(List<String> javaTypes) {
 
         List<String> sqlTypes = new ArrayList<>();
 
         for (int i = 0; i < javaTypes.size(); i++) {
 
-            if (javaTypes.get(i).equals("String")) {
-                sqlTypes.add("VARCHAR");
-                continue;
-            }
+            switch (javaTypes.get(i)){
 
-            if (javaTypes.get(i).equals("int") ||
-                    javaTypes.get(i).equals("Integer")) {
-                sqlTypes.add("INTEGER");
-                continue;
+                case "String":{
+                    sqlTypes.add("VARCHAR");
+                    break;
+                }
+                case "int":{
+                    sqlTypes.add("INTEGER");
+                    break;
+                }
+                case "Integer":{
+                    sqlTypes.add("INTEGER");
+                    break;
+                }
+                case "LocalDateTime":{
+                    sqlTypes.add("TIMESTAMP");
+                    break;
+                }
+                default:
+                    throw new UnsupportedSqlTypeException();
             }
-
-            throw new UnsupportedSqlTypeException();
         }
         return sqlTypes;
     }

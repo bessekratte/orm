@@ -1,4 +1,4 @@
-package pl.nask.agent.component.branch.get;
+package pl.nask.agent.component.reflection;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -7,34 +7,33 @@ import java.util.stream.Collectors;
 
 /**
  * this class is invoking getters methods and is returning a list with returned values
- * on unknown class object. I need this class for somehow describe an object
+ * on unknown class reflection. I need this class for somehow describe an reflection
  *
  */
 
-public class Getters {
+public class ReflectedGetters {
 
-    public static Map<String, Object> doGetters(Object o) {
-// TODO: 06.02.19 metoda do przemeblowania
+    public static Map<String, Object> doGetters(Object object) {
 
-        List<Method> methods = Getters.getClassGetters(o);
-        Map<String, Object> nameToValue = new TreeMap<>();
+        List<Method> methods = ReflectedGetters.getClassGetters(object);
+        Map<String, Object> fieldNameToValue = new TreeMap<>();
 
         for (int i = 0; i < methods.size(); i++) {
             Method method = methods.get(i);
             String field = method.getName().toLowerCase().substring(3);
             try {
-                Object returnedValue = method.invoke(o, null);
-                nameToValue.put(field, returnedValue);
+                Object returnedValue = method.invoke(object, null);
+                fieldNameToValue.put(field, returnedValue);
             } catch (IllegalAccessException | InvocationTargetException e) {
                 e.printStackTrace();
             }
         }
-        return nameToValue;
+        return fieldNameToValue;
     }
 
     private static List<Method> getClassGetters(Object o) {
         return Arrays.stream(o.getClass().getDeclaredMethods())
-                .filter(Getters::isMethodGetter)
+                .filter(ReflectedGetters::isMethodGetter)
                 .collect(Collectors.toList());
     }
 

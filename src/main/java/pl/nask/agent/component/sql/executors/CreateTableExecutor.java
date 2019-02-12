@@ -8,13 +8,14 @@ import java.sql.Statement;
 public class CreateTableExecutor {
 
     public static void executeCreateTable(String url, String sql) {
-
         try {
             Connection conn = DriverManager.getConnection(url, "", "");
             Statement st = conn.createStatement();
             st.executeUpdate(sql);
+            conn.close();
+            st.close();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e + "problem z tworzeniem tabeli");
         }
     }
 }

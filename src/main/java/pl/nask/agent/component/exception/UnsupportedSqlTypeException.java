@@ -1,8 +1,8 @@
-package pl.nask.agent.component.object.exception;
+package pl.nask.agent.component.exception;
 
 public class UnsupportedSqlTypeException extends RuntimeException {
 
     public UnsupportedSqlTypeException(){
-        super("UnsupportedSqlTypeException");
+        super("a class contains not supported class composition");
     }
 }

@@ -13,7 +13,7 @@ public class ReflectedSetters {
         try {
             final Object object = clazz.getConstructor().newInstance();
             Map<String, Method> setterMethodsMap = getMapOfFieldNameToSetterMethod(object.getClass());
-            // TODO: 11.02.19 popraw ten syf
+
             fieldNameToValue.keySet().forEach(fieldName -> {
                 Method setter = setterMethodsMap.get(fieldName);
                 try {
@@ -24,7 +24,6 @@ public class ReflectedSetters {
             });
             return object;
         } catch (Exception e) {
-            // TODO: 11.02.19 zalatw wszystkie wyjatki
             // TODO: 11.02.19 zrob wlasna klase wyjatku
             throw new RuntimeException(e);
         }
@@ -39,8 +38,7 @@ public class ReflectedSetters {
                 .collect(Collectors.toMap(
                         name -> name,
                         name -> methods.stream().filter(method -> method
-                                .getName()
-                                .toLowerCase()
+                                .getName().toLowerCase()
                                 .equals("set".concat(name.toLowerCase())))
                                 .findFirst()
                                 .orElseThrow(NoSuchSetterException::new)));

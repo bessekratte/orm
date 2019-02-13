@@ -1,7 +1,5 @@
 package pl.nask.agent.component.sql.creator;
 
-import java.util.Map;
-
 public class SelectStatement {
 
     public static String buildSelectStatement(String tableName, int id) {

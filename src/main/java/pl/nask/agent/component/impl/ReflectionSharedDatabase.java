@@ -8,20 +8,18 @@ import pl.nask.agent.component.sql.executors.CreateTableExecutor;
 import pl.nask.agent.component.sql.executors.InsertExecutor;
 import pl.nask.agent.component.sql.executors.SelectExecutor;
 
-public class ReflectionSharedDatabase<T> implements ISharedDatabase<T> {
+public class ReflectionSharedDatabase implements ISharedDatabase {
 
     @Override
-    public void createTable(Class<T> tClass) {
-        Class<T> tClass1;
-        Class<?> tclass1;
+    public void createTable(Class<?> tClass) {
         String sql = CreateTableStatement.getCreateTableSQL(tClass);
-        CreateTableExecutor.executeCreateTable(ISharedDatabase.DATABASE_URL, sql);
+        CreateTableExecutor.executeCreateTable(ISharedDatabase.DATABASE_URL, ISharedDatabase.DATABASE_USER, ISharedDatabase.DATABASE_PASSWORD, sql);
     }
 
     @Override
-    public int insert(T o) {
+    public int insert(Object o) {
         String sql = InsertStatement.getInsertObjectSQL(o);
-        return InsertExecutor.executeInsert(ISharedDatabase.DATABASE_URL, sql);
+        return InsertExecutor.executeInsert(ISharedDatabase.DATABASE_URL, ISharedDatabase.DATABASE_USER, ISharedDatabase.DATABASE_PASSWORD, sql);
     }
 
     @Override
@@ -30,8 +28,8 @@ public class ReflectionSharedDatabase<T> implements ISharedDatabase<T> {
     }
 
     @Override
-    public T select(Class<T> clazz, int id) {
+    public Object select(Class<?> clazz, int id) {
         String sql = SelectStatement.buildSelectStatement(clazz.getSimpleName().toLowerCase(), id);
-        return (T) SelectExecutor.executeSelect(ISharedDatabase.DATABASE_URL, sql, clazz);
+        return SelectExecutor.executeSelect(ISharedDatabase.DATABASE_URL, ISharedDatabase.DATABASE_USER, ISharedDatabase.DATABASE_PASSWORD, sql, clazz);
     }
 }

@@ -5,12 +5,6 @@ import java.lang.reflect.Method;
 import java.util.*;
 import java.util.stream.Collectors;
 
-/**
- * this class is invoking getters methods and is returning a list with returned values
- * on unknown class reflection. I need this class for somehow describe an reflection
- *
- */
-
 public class ReflectedGetters {
 
     public static Map<String, Object> doGetters(Object object) {

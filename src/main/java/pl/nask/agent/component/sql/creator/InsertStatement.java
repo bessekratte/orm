@@ -2,6 +2,9 @@ package pl.nask.agent.component.sql.creator;
 
 import pl.nask.agent.component.reflection.ReflectedGetters;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -15,7 +18,7 @@ public class InsertStatement {
         return buildInsertStatement(tableName, map);
     }
 
-    private static String buildInsertStatement(String tableName, Map<String, Object> fieldToValueMap) {
+    public static String buildInsertStatement(String tableName, Map<String, Object> fieldToValueMap) {
 
         StringBuilder sql = new StringBuilder("INSERT INTO " + tableName + " (");
         Set<String> set = fieldToValueMap.keySet();
@@ -37,6 +40,10 @@ public class InsertStatement {
 
         //Poniższa linia jest zależna od używanej implementacji bazy
         for (int i = 0; i < values.size(); i++) {
+            if (values.get(i) instanceof LocalDateTime){
+                sql.append("\"" + Timestamp.valueOf((LocalDateTime)values.get(i)) + "\"").append(", ");
+                continue;
+            }
             sql.append("\"" + values.get(i) + "\"").append(", ");
         }
         sql.delete(sql.length() - 2, sql.length()); // usuniecie ostatniego ", "

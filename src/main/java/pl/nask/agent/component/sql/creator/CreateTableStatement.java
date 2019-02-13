@@ -41,22 +41,26 @@ public class CreateTableStatement {
 
             switch (javaTypes.get(i)){
 
-                case "String":{
+                case "String":
                     sqlTypes.add("VARCHAR");
                     break;
-                }
-                case "int":{
+
+                case "int":
                     sqlTypes.add("INTEGER");
                     break;
-                }
-                case "Integer":{
+
+                case "Integer":
                     sqlTypes.add("INTEGER");
                     break;
-                }
-                case "LocalDateTime":{
+
+                case "LocalDateTime":
+                    sqlTypes.add("TEXT");
+                    break;
+
+                case "Timestamp":
                     sqlTypes.add("TIMESTAMP");
                     break;
-                }
+
                 default:
                     throw new UnsupportedSqlTypeException();
             }

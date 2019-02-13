@@ -3,6 +3,7 @@ package pl.nask.agent.component.reflection;
 import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class ClassReflectionDispatcher {
@@ -17,5 +18,11 @@ public class ClassReflectionDispatcher {
         return Arrays.stream(clazz.getDeclaredFields())
                 .map(field -> field.getType().getSimpleName())
                 .collect(Collectors.toList());
+    }
+
+    public static Map<String, String> getFieldNameToFieldType(Class clazz){
+        Field[] fields = clazz.getDeclaredFields();
+        return Arrays.stream(fields).collect(Collectors.toMap(x -> x.getName(),
+                x -> x.getType().getSimpleName()));
     }
 }

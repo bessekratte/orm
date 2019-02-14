@@ -1,4 +1,4 @@
-package pl.nask.agent.component.reflection;
+package pl.nask.agent.component.database.reflection;
 
 import java.lang.reflect.Field;
 import java.util.Arrays;
@@ -24,5 +24,11 @@ public class ClassReflectionDispatcher {
         Field[] fields = clazz.getDeclaredFields();
         return Arrays.stream(fields).collect(Collectors.toMap(x -> x.getName(),
                 x -> x.getType().getSimpleName()));
+    }
+
+    public static Map<Field, String> getFieldToFieldName(Class<?> clazz){
+        return Arrays.stream(clazz.getDeclaredFields())
+                .collect(Collectors.toMap(field -> field,
+                        Field::getName));
     }
 }

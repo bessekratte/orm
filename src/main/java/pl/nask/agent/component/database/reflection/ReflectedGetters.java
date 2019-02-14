@@ -1,4 +1,4 @@
-package pl.nask.agent.component.reflection;
+package pl.nask.agent.component.database.reflection;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;

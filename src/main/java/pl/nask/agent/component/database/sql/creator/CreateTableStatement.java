@@ -1,7 +1,7 @@
-package pl.nask.agent.component.sql.creator;
+package pl.nask.agent.component.database.sql.creator;
 
-import pl.nask.agent.component.reflection.ClassReflectionDispatcher;
-import pl.nask.agent.component.exception.UnsupportedSqlTypeException;
+import pl.nask.agent.component.database.reflection.ClassReflectionDispatcher;
+import pl.nask.agent.component.database.exception.UnsupportedSqlTypeException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +9,6 @@ import java.util.List;
 public class CreateTableStatement {
 
     public static String getCreateTableSQL(Class clazz) {
-
         String tableName = clazz.getSimpleName().toLowerCase();
         List<String> types = ClassReflectionDispatcher.getListOfClassTypes(clazz);
         List<String> names = ClassReflectionDispatcher.getListOfFieldNames(clazz);
@@ -37,9 +36,9 @@ public class CreateTableStatement {
 
         List<String> sqlTypes = new ArrayList<>();
 
-        for (int i = 0; i < javaTypes.size(); i++) {
+        for (String javaType : javaTypes) {
 
-            switch (javaTypes.get(i)){
+            switch (javaType) {
 
                 case "String":
                     sqlTypes.add("VARCHAR");
@@ -53,8 +52,9 @@ public class CreateTableStatement {
                     sqlTypes.add("INTEGER");
                     break;
 
+                // TODO: 14.02.19 text against timestamp ?
                 case "LocalDateTime":
-                    sqlTypes.add("TEXT");
+                    sqlTypes.add("TIMESTAMP");
                     break;
 
                 case "Timestamp":

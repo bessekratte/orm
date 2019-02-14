@@ -1,4 +1,4 @@
-package pl.nask.agent.component.sql.executors;
+package pl.nask.agent.component.database.sql.executors;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

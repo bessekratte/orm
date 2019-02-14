@@ -1,10 +1,9 @@
-package pl.nask.agent.component.sql.creator;
+package pl.nask.agent.component.database.sql.creator;
 
-import pl.nask.agent.component.reflection.ReflectedGetters;
+import pl.nask.agent.component.database.reflection.ReflectedGetters;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -12,13 +11,13 @@ import java.util.Set;
 
 public class InsertStatement {
 
-    public static String getInsertObjectSQL(Object object) {
+    public static String getInsertSQL(Object object) {
         String tableName = object.getClass().getSimpleName().toLowerCase();
         Map<String, Object> map = ReflectedGetters.doGetters(object);
         return buildInsertStatement(tableName, map);
     }
 
-    public static String buildInsertStatement(String tableName, Map<String, Object> fieldToValueMap) {
+    private static String buildInsertStatement(String tableName, Map<String, Object> fieldToValueMap) {
 
         StringBuilder sql = new StringBuilder("INSERT INTO " + tableName + " (");
         Set<String> set = fieldToValueMap.keySet();
@@ -26,26 +25,27 @@ public class InsertStatement {
         List<Object> values = new ArrayList<>();
 
         // uzupelniam mapowanie field to value
-        for (int i = 0; i < fields.size(); i++) {
-            values.add(fieldToValueMap.get(fields.get(i)));
+        for (String field : fields) {
+            values.add(fieldToValueMap.get(field));
         }
 
         //Poniższa linia jest zależna od używanej implementacji bazy
-        for (int i = 0; i < fields.size(); i++) {
-            sql.append("\"" + fields.get(i) + "\"").append(", ");
+        for (String field : fields) {
+            sql.append("\"").append(field).append("\"").append(", ");
         }
 
         sql.delete(sql.length() - 2, sql.length()); // usuniecie ostatniego ", "
         sql.append(") VALUES (");
 
         //Poniższa linia jest zależna od używanej implementacji bazy
-        for (int i = 0; i < values.size(); i++) {
-            if (values.get(i) instanceof LocalDateTime){
-                sql.append("\"" + Timestamp.valueOf((LocalDateTime)values.get(i)) + "\"").append(", ");
+        for (Object value : values) {
+            if (value instanceof LocalDateTime) {
+                sql.append("\"").append(Timestamp.valueOf((LocalDateTime) value)).append("\"").append(", ");
                 continue;
             }
-            sql.append("\"" + values.get(i) + "\"").append(", ");
+            sql.append("\"").append(value).append("\"").append(", ");
         }
+
         sql.delete(sql.length() - 2, sql.length()); // usuniecie ostatniego ", "
         sql.append(");");
 

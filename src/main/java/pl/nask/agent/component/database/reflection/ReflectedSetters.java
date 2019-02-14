@@ -1,6 +1,6 @@
-package pl.nask.agent.component.reflection;
+package pl.nask.agent.component.database.reflection;
 
-import pl.nask.agent.component.exception.NoSuchSetterException;
+import pl.nask.agent.component.database.exception.NoSuchSetterException;
 
 import java.lang.reflect.Method;
 import java.util.*;

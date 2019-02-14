@@ -1,4 +1,4 @@
-package pl.nask.agent.component.sql.executors;
+package pl.nask.agent.component.database.sql.executors;
 
 import java.sql.*;
 
@@ -12,7 +12,7 @@ public class InsertExecutor {
             if (rs.next()) {
                 return rs.getInt(1);
             } else {
-                throw new RuntimeException("problem z insertowaniem");
+                throw new RuntimeException("problem z insertowaniem"); //TODO: w tescie trzeba sprawdzic co sie stanie gdy utworzymy tabele bez id korzystajacego z mechnizmow autoinkrementacji np. tabela: id:String, imie: String, nazwisko: String
             }
         } catch (SQLException e) {
             e.printStackTrace();

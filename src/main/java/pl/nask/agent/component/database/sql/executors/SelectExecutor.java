@@ -1,10 +1,9 @@
-package pl.nask.agent.component.sql.executors;
+package pl.nask.agent.component.database.sql.executors;
 
-import pl.nask.agent.component.reflection.ReflectedSetters;
-import pl.nask.agent.component.reflection.ClassReflectionDispatcher;
+import pl.nask.agent.component.database.reflection.ClassReflectionDispatcher;
+import pl.nask.agent.component.database.reflection.ReflectedSetters;
 
 import java.sql.*;
-import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,28 +21,30 @@ public class SelectExecutor {
             Map<String, Object> fieldNameToValue = new HashMap<>();
             Map<String, String> fieldNameToFieldType = ClassReflectionDispatcher.getFieldNameToFieldType(clazz);
 
-            for (int i = 0; i < fieldNames.size(); i++) {
-                switch (fieldNameToFieldType.get(fieldNames.get(i))) {
+            for (String fieldName : fieldNames) {
+                switch (fieldNameToFieldType.get(fieldName)) {
                     case "String": {
-                        fieldNameToValue.put(fieldNames.get(i), rs.getString(fieldNames.get(i)));
+                        fieldNameToValue.put(fieldName, rs.getString(fieldName));
                         break;
                     }
                     case "int": {
-                        fieldNameToValue.put(fieldNames.get(i), rs.getInt(fieldNames.get(i)));
+                        fieldNameToValue.put(fieldName, rs.getInt(fieldName));
                         break;
                     }
                     case "Integer": {
-                        fieldNameToValue.put(fieldNames.get(i), rs.getInt(fieldNames.get(i)));
+                        fieldNameToValue.put(fieldName, rs.getInt(fieldName));
                         break;
                     }
                     case "Timestamp": {
-                        fieldNameToValue.put(fieldNames.get(i), rs.getTimestamp(fieldNames.get(i)));
+                        fieldNameToValue.put(fieldName, rs.getTimestamp(fieldName));
                         break;
                     }
                     case "LocalDateTime": {
-                        fieldNameToValue.put(fieldNames.get(i), rs.getTimestamp(fieldNames.get(i)).toLocalDateTime());
+                        fieldNameToValue.put(fieldName, rs.getTimestamp(fieldName).toLocalDateTime());
                         break;
                     }
+//                    default:
+//                        throw new UnsupportedSqlTypeException();
                 }
             }
             conn.close();

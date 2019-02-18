@@ -1,7 +1,25 @@
 package pl.nask.agent.component.database.mapper;
 
+import pl.nask.agent.component.database.exception.UnsupportedSqlTypeException;
 
-public interface TypeConverter {
+public class TypeConverter {
 
-    String convertTypeToSqlType();
+    public static String convertToSqlType(String javaType) {
+
+        switch (javaType) {
+            case "String":
+                return "VARCHAR";
+            case "int":
+                return "INTEGER";
+            case "Integer":
+                return "INTEGER";
+            case "LocalDateTime":
+                return "TIMESTAMP";
+            case "Timestamp":
+                return "TIMESTAMP";
+            default:
+                throw new UnsupportedSqlTypeException();
+        }
+    }
+
 }

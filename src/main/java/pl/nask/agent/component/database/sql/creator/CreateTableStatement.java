@@ -6,6 +6,9 @@ import pl.nask.agent.component.database.exception.UnsupportedSqlTypeException;
 import java.util.ArrayList;
 import java.util.List;
 
+// TODO: 19.02.19 jest nowsza wersja
+
+@Deprecated
 public class CreateTableStatement {
 
     public static String getCreateTableSQL(Class clazz) {

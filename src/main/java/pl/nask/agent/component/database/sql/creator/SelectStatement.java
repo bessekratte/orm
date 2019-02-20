@@ -1,11 +1,14 @@
 package pl.nask.agent.component.database.sql.creator;
 
+
+import pl.nask.agent.component.database.reflection.ReflectedAnnotations;
+
 public class SelectStatement {
 
-    public static String getSelectSQL(String tableName, int id) {
+    public static String getSelectSQL(Class<?> clazz, Object id) {
 
-        // TODO: 08.02.19 tutaj byc moze beda potrzebne nawiasy na zmienna id w stringbuilderze
-
-        return "SELECT * FROM " + tableName + " " + "WHERE id = " + id;
+        String tableName = clazz.getSimpleName().toLowerCase();
+        String idFieldName = ReflectedAnnotations.getFieldBeingId(clazz).getName();
+        return "SELECT * FROM " + tableName + " WHERE " +  idFieldName + " = " + "\""  + id + "\"";
     }
 }

@@ -16,6 +16,7 @@ public class CreateTableStatementWithAnnotations {
         return sql.toString();
     }
 
+    // TODO: 19.02.19 metoda docelowo ma implementowac rozne rodzaje tworzenia tabel
     public static String buildCreateOptionSQL(Class tClass){
         return "CREATE TABLE IF NOT EXISTS " + tClass.getSimpleName().toLowerCase() + " (";
     }
@@ -23,13 +24,12 @@ public class CreateTableStatementWithAnnotations {
     public static String buildTableIdSQL(Class tClass) {
 
         StringBuilder sql = new StringBuilder();
-        ReflectedAnnotations.getFieldBeingId(tClass).ifPresent(idField -> {
-            sql.append(idField.getName());
-            sql.append(" ");
-            sql.append(TypeConverter.convertToSqlType(idField.getType().getSimpleName()));
-            sql.append(" ");
-            sql.append("PRIMARY KEY, ");
-        });
+        Field idField = ReflectedAnnotations.getFieldBeingId(tClass);
+        sql.append(idField.getName());
+        sql.append(" ");
+        sql.append(TypeConverter.convertToSqlType(idField.getType().getSimpleName()));
+        sql.append(" ");
+        sql.append("PRIMARY KEY, "); //TODO: trzeba sie zastanowic co sie stanie jak zmienimy na silnik db bez mechanizmu primary key
         return sql.toString();
     }
 

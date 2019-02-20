@@ -22,7 +22,7 @@ public class ClassReflectionDispatcher {
 
     public static Map<String, String> getFieldNameToFieldType(Class clazz){
         Field[] fields = clazz.getDeclaredFields();
-        return Arrays.stream(fields).collect(Collectors.toMap(x -> x.getName(),
+        return Arrays.stream(fields).collect(Collectors.toMap(Field::getName,
                 x -> x.getType().getSimpleName()));
     }
 

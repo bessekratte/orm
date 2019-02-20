@@ -37,6 +37,7 @@ public class InsertStatement {
         sql.delete(sql.length() - 2, sql.length()); // usuniecie ostatniego ", "
         sql.append(") VALUES (");
 
+        // TODO: 20.02.19 tutaj bede musial uzyc swoich mapperow
         //Poniższa linia jest zależna od używanej implementacji bazy
         for (Object value : values) {
             if (value instanceof LocalDateTime) {

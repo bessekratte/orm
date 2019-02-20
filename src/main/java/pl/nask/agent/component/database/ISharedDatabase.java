@@ -1,6 +1,5 @@
 package pl.nask.agent.component.database;
 
-import pl.nask.agent.common.core.domain.IEntity;
 
 public interface ISharedDatabase {
 
@@ -8,21 +7,18 @@ public interface ISharedDatabase {
     String DATABASE_USER = "";
     String DATABASE_PASSWORD = "";
 
-    void createTable(Class<? extends IEntity> tClass); //TODO: niech klasa przyjmuje obiekty implementujace interfejs IEntity
-    int insert(IEntity o); //TODO: zamien Obiect na IEntity
-    boolean update(IEntity o, int id); //TODO: brak implementacji
-    IEntity select(Class<? extends IEntity> tClass, int id); //TODO: niech klasa przyjmuje obiekty implementujace interfejs IEntity
+    void createTable(Class<?> tClass);
+    Object insert(Object o);
+    boolean update(Object o);
+    Object select(Class<?> tClass, Object id);
 
-/*riteria select(Class<?>);
+/*
+// TODO: 19.02.19 docelowa implementacja
+import pl.nask.agent.common.core.domain.IEntity;
+    void createTable(Class<? extends IEntity> tClass);
+    int insert(IEntity o);
+    boolean update(IEntity o, int id);
+    IEntity select(Class<? extends IEntity> tClass, int id);
 
-    public class Criteria {
-
-        Criteria and();
-        Criteria or();
-        Criteria equalTo("name", "John");
-
-
-        List<Class<?>> findAll(Class<?>);
-        Class<?> find(Class<?>);
-    }*/
+*/
 }

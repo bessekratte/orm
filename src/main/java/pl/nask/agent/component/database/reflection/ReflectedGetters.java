@@ -16,7 +16,7 @@ public class ReflectedGetters {
             Method method = methods.get(i);
             String field = method.getName().toLowerCase().substring(3);
             try {
-                Object returnedValue = method.invoke(object, null);
+                Object returnedValue = method.invoke(object);
                 fieldNameToValue.put(field, returnedValue);
             } catch (IllegalAccessException | InvocationTargetException e) {
                 e.printStackTrace();
@@ -26,8 +26,8 @@ public class ReflectedGetters {
     }
 
     private static List<Method> getClassGetters(Object o) {
-        return Arrays.stream(o.getClass().getDeclaredMethods())
-                .filter(ReflectedGetters::isMethodGetter)
+        return ReflectedObject.getReflectedObject(o.getClass()).getMethods()
+                .stream().filter(ReflectedGetters::isMethodGetter)
                 .collect(Collectors.toList());
     }
 

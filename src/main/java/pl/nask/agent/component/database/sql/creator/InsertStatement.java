@@ -1,51 +1,53 @@
 package pl.nask.agent.component.database.sql.creator;
 
+import pl.nask.agent.component.database.reflection.ReflectedAnnotations;
 import pl.nask.agent.component.database.reflection.ReflectedGetters;
 
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.lang.reflect.Field;
 import java.util.Map;
-import java.util.Set;
 
 public class InsertStatement {
 
     public static String getInsertSQL(Object object) {
         String tableName = object.getClass().getSimpleName().toLowerCase();
         Map<String, Object> map = ReflectedGetters.doGetters(object);
+
+        /** ten kawalek musi zostac jakos zmieniony/przeniesiony
+         * jego celem jest sprawdzenie czy id encji
+         * jest intem lub integerem (trzeba moze zrobic tez inne typy numeryczne)
+         * w celu usuniecia go z sql-a insertowego, dzieki czemu
+         * sqlite sam wygeneruje dla niego wartosc z-auto-inkrementowana
+         */
+
+        Field field = ReflectedAnnotations.getFieldBeingId(object.getClass());
+        String idField = field.getType().getSimpleName();
+        if (idField.equals("Integer") ||
+                idField.equals("int")) {
+            map.remove(field.getName());
+        }
         return buildInsertStatement(tableName, map);
     }
 
     private static String buildInsertStatement(String tableName, Map<String, Object> fieldToValueMap) {
 
         StringBuilder sql = new StringBuilder("INSERT INTO " + tableName + " (");
-        Set<String> set = fieldToValueMap.keySet();
-        List<String> fields = new ArrayList<>(set);
-        List<Object> values = new ArrayList<>();
 
-        // uzupelniam mapowanie field to value
-        for (String field : fields) {
-            values.add(fieldToValueMap.get(field));
-        }
-
-        //Poniższa linia jest zależna od używanej implementacji bazy
-        for (String field : fields) {
-            sql.append("\"").append(field).append("\"").append(", ");
-        }
+        fieldToValueMap.forEach((key, value) -> {
+            sql.append("\"");
+            sql.append(key);
+            sql.append("\"");
+            sql.append(", ");
+        });
 
         sql.delete(sql.length() - 2, sql.length()); // usuniecie ostatniego ", "
         sql.append(") VALUES (");
 
-        // TODO: 20.02.19 tutaj bede musial uzyc swoich mapperow
-        //Poniższa linia jest zależna od używanej implementacji bazy
-        for (Object value : values) {
-            if (value instanceof LocalDateTime) {
-                sql.append("\"").append(Timestamp.valueOf((LocalDateTime) value)).append("\"").append(", ");
-                continue;
-            }
-            sql.append("\"").append(value).append("\"").append(", ");
-        }
+        fieldToValueMap.forEach((key, value) -> {
+            sql.append("\"");
+            sql.append(fieldToValueMap.get(key));
+            sql.append("\"");
+            sql.append(", ");
+        });
 
         sql.delete(sql.length() - 2, sql.length()); // usuniecie ostatniego ", "
         sql.append(");");

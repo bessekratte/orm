@@ -12,6 +12,7 @@ import java.util.List;
 public class CreateTableStatement {
 
     public static String getCreateTableSQL(Class clazz) {
+
         String tableName = clazz.getSimpleName().toLowerCase();
         List<String> types = ClassReflectionDispatcher.getListOfClassTypes(clazz);
         List<String> names = ClassReflectionDispatcher.getListOfFieldNames(clazz);

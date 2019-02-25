@@ -1,6 +1,6 @@
 package pl.nask.agent.component.database.sql.creator.annotated;
 
-import pl.nask.agent.component.database.mapper.TypeConverter;
+import pl.nask.agent.component.database.persistent.DataType;
 import pl.nask.agent.component.database.reflection.ReflectedAnnotations;
 
 import java.lang.reflect.Field;
@@ -16,7 +16,6 @@ public class CreateTableStatementWithAnnotations {
         return sql.toString();
     }
 
-    // TODO: 19.02.19 metoda docelowo ma implementowac rozne rodzaje tworzenia tabel
     public static String buildCreateOptionSQL(Class tClass){
         return "CREATE TABLE IF NOT EXISTS " + tClass.getSimpleName().toLowerCase() + " (";
     }
@@ -27,9 +26,9 @@ public class CreateTableStatementWithAnnotations {
         Field idField = ReflectedAnnotations.getFieldBeingId(tClass);
         sql.append(idField.getName());
         sql.append(" ");
-        sql.append(TypeConverter.convertToSqlType(idField.getType().getSimpleName()));
+        sql.append(makeObjectDatabaseWritable(idField));
         sql.append(" ");
-        sql.append("PRIMARY KEY, "); //TODO: trzeba sie zastanowic co sie stanie jak zmienimy na silnik db bez mechanizmu primary key
+        sql.append("PRIMARY KEY, ");
         return sql.toString();
     }
 
@@ -39,12 +38,20 @@ public class CreateTableStatementWithAnnotations {
         fields.forEach(field -> {
             sql.append(field.getName());
             sql.append(" ");
-            sql.append(TypeConverter.convertToSqlType(field.getType().getSimpleName()));
+            sql.append(makeObjectDatabaseWritable(field));
             sql.append(", ");
         });
         sql.delete(sql.length() - 2, sql.length());
         sql.append(");");
         return sql.toString();
+    }
+
+    public static String makeObjectDatabaseWritable(Field idField) {
+        return DataType.stream().filter(dataType -> dataType.getClassType().equals(idField.getType()))
+                .findFirst()
+                .orElseThrow(RuntimeException::new)
+                .getSqlType()
+                .toString();
     }
 }
 

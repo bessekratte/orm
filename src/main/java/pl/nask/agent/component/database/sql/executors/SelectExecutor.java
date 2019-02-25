@@ -1,12 +1,14 @@
 package pl.nask.agent.component.database.sql.executors;
 
-import pl.nask.agent.component.database.reflection.ClassReflectionDispatcher;
+import com.fasterxml.jackson.annotation.ObjectIdResolver;
+import pl.nask.agent.component.database.exception.UnsupportedSqlTypeException;
+import pl.nask.agent.component.database.persistent.DataType;
 import pl.nask.agent.component.database.reflection.ReflectedObject;
 import pl.nask.agent.component.database.reflection.ReflectedSetters;
 
+import javax.xml.crypto.Data;
 import java.lang.reflect.Field;
 import java.sql.*;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -21,10 +23,36 @@ public class SelectExecutor {
             Statement st = conn.createStatement();
             ResultSet rs = st.executeQuery(sql);
             rs.next();
+/**
+ * musze zrobic mape
+ * nazwa pola - wartosc
+ * String lastName = rs.getString("Lname");
+ *
+ */
+            Map<String, Class<?>> fieldNameToFieldType =
+                    ReflectedObject.getReflectedObject(clazz).getMapOfFieldNameToFieldType();
 
-            List<String> fieldNames = ReflectedObject.getReflectedObject(clazz).getFields().stream().map(Field::getName).collect(Collectors.toList()); // test
-            Map<String, String> fieldNameToFieldType = ClassReflectionDispatcher.getFieldNameToFieldType(clazz);
-            Map<String, Object> fieldNameToValue = new HashMap<>();
+            Map<String, Object> fieldNameToValue = fieldNameToFieldType.entrySet().stream()
+                    .collect(Collectors.toMap(Map.Entry::getKey,
+                            fieldType -> {
+
+                                DataType dataType = DataType.stream()
+                                        .filter(data -> data.getClassType().equals(fieldType.getValue()))
+                                        .findFirst()
+                                        .orElseThrow(RuntimeException::new);
+
+                                Object result = dataType.getResultsetDispatcher()
+                                        .invokeResultSetGetter(rs, fieldType.getKey());
+
+                                result = dataType.getMapper()
+                                        .convertToJavaClass(result);
+
+                                return result;
+                            }));
+
+
+
+/*            Map<String, Object> fieldNameToValue = new HashMap<>();
 
             for (String fieldName : fieldNames) {
                 switch (fieldNameToFieldType.get(fieldName)) {
@@ -49,7 +77,7 @@ public class SelectExecutor {
                         break;
                     }
                 }
-            }
+            }*/
             conn.close();
             st.close();
             rs.close();
@@ -58,6 +86,16 @@ public class SelectExecutor {
             e.printStackTrace();
             throw new RuntimeException(e);
         }
+    }
+
+    public static Object makeObjectDatabaseReadable(Object object) {
+
+        return DataType.stream()
+                .filter(dataType -> dataType.getClassType().equals(object.getClass()))
+                .findFirst()
+                .orElseThrow(UnsupportedSqlTypeException::new)
+                .getMapper()
+                .convertToJavaClass(object);
     }
 }
 

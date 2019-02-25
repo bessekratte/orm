@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 @Getter
 public class ReflectedObject {
 
-    private static final Map<Class, ReflectedObject> objects;
+    private static final Map<Class<?>, ReflectedObject> objects;
 
     static {
         objects = new HashMap<>();
@@ -22,7 +22,7 @@ public class ReflectedObject {
     private List<Field> fields;
     private List<Method> methods;
 
-    private ReflectedObject(Class rClass) {
+    private ReflectedObject(Class<?> rClass) {
 
         fields = Arrays.stream(rClass.getDeclaredFields())
                 .filter(field ->
@@ -41,11 +41,17 @@ public class ReflectedObject {
         objects.put(rClass, this);
     }
 
-    public static ReflectedObject getReflectedObject(Class clazz){
+    public static ReflectedObject getReflectedObject(Class<?> clazz){
         ReflectedObject ref = objects.get(clazz);
         if (ref == null){
             ref = new ReflectedObject(clazz);
         }
         return ref;
+    }
+
+    public Map<String, Class<?>> getMapOfFieldNameToFieldType(){
+        return fields.stream().collect(Collectors.toMap(
+                Field::getName,
+                Field::getType));
     }
 }

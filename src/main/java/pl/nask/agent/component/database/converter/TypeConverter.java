@@ -1,7 +1,8 @@
-package pl.nask.agent.component.database.mapper;
+package pl.nask.agent.component.database.converter;
 
 import pl.nask.agent.component.database.exception.UnsupportedSqlTypeException;
 
+@Deprecated
 public class TypeConverter {
 
     public static String convertToSqlType(String javaType) {

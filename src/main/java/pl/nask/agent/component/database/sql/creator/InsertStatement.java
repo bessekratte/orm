@@ -28,6 +28,7 @@ public class InsertStatement {
                 idField.equals("int")) {
             map.remove(field.getName());
         }
+
         return buildInsertStatement(tableName, map);
     }
 

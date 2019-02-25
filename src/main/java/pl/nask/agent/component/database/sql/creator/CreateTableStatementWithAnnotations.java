@@ -1,4 +1,4 @@
-package pl.nask.agent.component.database.sql.creator.annotated;
+package pl.nask.agent.component.database.sql.creator;
 
 import pl.nask.agent.component.database.persistent.DataType;
 import pl.nask.agent.component.database.reflection.ReflectedAnnotations;

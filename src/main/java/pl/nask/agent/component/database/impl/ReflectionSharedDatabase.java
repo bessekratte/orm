@@ -3,7 +3,7 @@ package pl.nask.agent.component.database.impl;
 import pl.nask.agent.component.database.sql.creator.InsertStatement;
 import pl.nask.agent.component.database.sql.creator.SelectStatement;
 import pl.nask.agent.component.database.sql.creator.UpdateStatement;
-import pl.nask.agent.component.database.sql.creator.annotated.CreateTableStatementWithAnnotations;
+import pl.nask.agent.component.database.sql.creator.CreateTableStatementWithAnnotations;
 import pl.nask.agent.component.database.sql.executors.CreateTableExecutor;
 import pl.nask.agent.component.database.sql.executors.InsertExecutor;
 import pl.nask.agent.component.database.sql.executors.SelectExecutor;

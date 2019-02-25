@@ -10,6 +10,8 @@ import java.time.LocalDateTime;
 import java.util.stream.Stream;
 
 // TODO: 25.02.19 klase mozna oznaczyc @Getter lombok-a
+
+@Getter
 public enum DataType {
 
     /**
@@ -44,7 +46,19 @@ public enum DataType {
             LocalDateTime.class,
             SqlType.TIMESTAMP,
             LocalDateTimeMapper.getInstance(),
-            LocalDateTimeResultSetDispatcher.getInstance());
+            LocalDateTimeResultSetDispatcher.getInstance()),
+
+    BOOLEAN(
+            Boolean.class,
+            SqlType.INTEGER,
+            BooleanMapper.getInstance(),
+            BooleanResultSetDispatcher.getInstance()),
+
+    BOOL(
+            boolean.class,
+            SqlType.INTEGER,
+            BooleanMapper.getInstance(),
+            BooleanResultSetDispatcher.getInstance());
 
     private Class<?> classType;
     private SqlType sqlType;
@@ -57,6 +71,7 @@ public enum DataType {
         this.mapper = mapper;
         this.resultsetDispatcher = resultsetDispatcher;
     }
+/*
 
     public SqlType getSqlType() {
         return sqlType;
@@ -73,6 +88,7 @@ public enum DataType {
     public ResultSetDispatcher getResultsetDispatcher() {
         return resultsetDispatcher;
     }
+*/
 
     public static Stream<DataType> stream() {
         return Stream.of(DataType.values());

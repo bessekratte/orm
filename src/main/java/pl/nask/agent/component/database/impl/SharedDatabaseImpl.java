@@ -10,7 +10,7 @@ import pl.nask.agent.component.database.sql.executors.SelectExecutor;
 import pl.nask.agent.component.database.ISharedDatabase;
 import pl.nask.agent.component.database.sql.executors.UpdateExecutor;
 
-public class ReflectionSharedDatabase implements ISharedDatabase {
+public class SharedDatabaseImpl implements ISharedDatabase {
 
     @Override
     public void createTable(Class<?> tClass) {

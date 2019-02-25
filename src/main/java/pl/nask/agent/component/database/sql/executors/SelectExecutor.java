@@ -23,12 +23,7 @@ public class SelectExecutor {
             Statement st = conn.createStatement();
             ResultSet rs = st.executeQuery(sql);
             rs.next();
-/**
- * musze zrobic mape
- * nazwa pola - wartosc
- * String lastName = rs.getString("Lname");
- *
- */
+
             Map<String, Class<?>> fieldNameToFieldType =
                     ReflectedObject.getReflectedObject(clazz).getMapOfFieldNameToFieldType();
 
@@ -49,35 +44,6 @@ public class SelectExecutor {
 
                                 return result;
                             }));
-
-
-
-/*            Map<String, Object> fieldNameToValue = new HashMap<>();
-
-            for (String fieldName : fieldNames) {
-                switch (fieldNameToFieldType.get(fieldName)) {
-                    case "String": {
-                        fieldNameToValue.put(fieldName, rs.getString(fieldName));
-                        break;
-                    }
-                    case "int": {
-                        fieldNameToValue.put(fieldName, rs.getInt(fieldName));
-                        break;
-                    }
-                    case "Integer": {
-                        fieldNameToValue.put(fieldName, rs.getInt(fieldName));
-                        break;
-                    }
-                    case "Timestamp": {
-                        fieldNameToValue.put(fieldName, rs.getTimestamp(fieldName));
-                        break;
-                    }
-                    case "LocalDateTime": {
-                        fieldNameToValue.put(fieldName, rs.getTimestamp(fieldName).toLocalDateTime());
-                        break;
-                    }
-                }
-            }*/
             conn.close();
             st.close();
             rs.close();
@@ -86,16 +52,6 @@ public class SelectExecutor {
             e.printStackTrace();
             throw new RuntimeException(e);
         }
-    }
-
-    public static Object makeObjectDatabaseReadable(Object object) {
-
-        return DataType.stream()
-                .filter(dataType -> dataType.getClassType().equals(object.getClass()))
-                .findFirst()
-                .orElseThrow(UnsupportedSqlTypeException::new)
-                .getMapper()
-                .convertToJavaClass(object);
     }
 }
 

@@ -52,7 +52,9 @@ public class IntegrationTest {
         ISharedDatabase db = new SharedDatabaseImpl();
         db.createTable(MojaKlasaPrawdaFalsz.class);
         MojaKlasaPrawdaFalsz obj = new MojaKlasaPrawdaFalsz(Boolean.TRUE, true);
-        Object id = db.insert(obj);
-        System.out.println(db.select(MojaKlasaPrawdaFalsz.class, id));
+        Object id =
+                db.insert(obj);
+        System.out.println(
+                db.select(MojaKlasaPrawdaFalsz.class, id));
     }
 }

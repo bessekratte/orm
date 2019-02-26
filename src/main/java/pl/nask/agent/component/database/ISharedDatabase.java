@@ -1,11 +1,6 @@
 package pl.nask.agent.component.database;
 
-
 public interface ISharedDatabase {
-
-    String DATABASE_URL = "jdbc:sqlite:sqlite.sqlite";
-    String DATABASE_USER = "";
-    String DATABASE_PASSWORD = "";
 
     void createTable(Class<?> tClass);
     Object insert(Object o);

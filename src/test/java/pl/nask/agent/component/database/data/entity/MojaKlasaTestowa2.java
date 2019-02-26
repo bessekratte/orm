@@ -21,7 +21,7 @@ public class MojaKlasaTestowa2 {
     private String lastName;
 
     public MojaKlasaTestowa2(String naS, String name, String lastName) {
-        NaS = naS;
+        this.NaS = naS;
         this.name = name;
         this.lastName = lastName;
     }

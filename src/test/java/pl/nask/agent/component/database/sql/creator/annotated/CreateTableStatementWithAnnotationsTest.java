@@ -36,6 +36,11 @@ public class CreateTableStatementWithAnnotationsTest {
     @Test
     public void buildCreateTableSQL() {
         String s = CreateTableStatementWithAnnotations.buildCreateTableSQL(MojaKlasaTestowaRozszerzona.class);
-        System.out.println(s);
+        assertEquals(
+                "CREATE TABLE IF NOT EXISTS mojaklasatestowarozszerzona " +
+                        "(id VARCHAR PRIMARY KEY, " +
+                        "name VARCHAR, " +
+                        "creationTime TIMESTAMP);",
+                s);
     }
 }

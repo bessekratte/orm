@@ -1,8 +1,8 @@
 package pl.nask.agent.component.database.sql.creator;
 
+import pl.nask.agent.component.database.reflection.ReflectedGetters;
 import pl.nask.agent.component.database.persistent.DataType;
 import pl.nask.agent.component.database.reflection.ReflectedAnnotations;
-import pl.nask.agent.component.database.reflection.ReflectedGetters;
 
 import java.lang.reflect.Field;
 import java.util.Map;

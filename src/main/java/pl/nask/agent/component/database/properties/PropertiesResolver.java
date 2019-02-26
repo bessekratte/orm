@@ -1,4 +1,4 @@
-package pl.nask.agent.component.database.resolver;
+package pl.nask.agent.component.database.properties;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -22,12 +22,12 @@ public class PropertiesResolver {
         Path properties = Paths.get("src/main/resources/application.properties");
         try {
             return Files.lines(properties).collect(Collectors.toMap(
-                    (String key) -> key.substring(0, key.indexOf("=")).trim(), // tworzenie klucza
-                    (String value) -> value.substring(value.indexOf("=") + 1).trim(), // tworzenie wartosci
-                    (valueFirst, valueSecond) -> valueFirst + ", " + valueSecond)); // co ma zrobic w wypadku kiedy jeden klucz ma kilka wartosci
+                    (String key) -> key.substring(0, key.indexOf("=")).trim(),          // tworzenie klucza
+                    (String value) -> value.substring(value.indexOf("=") + 1).trim(),   // tworzenie wartosci
+                    (valueFirst, valueSecond) -> valueFirst + ", " + valueSecond));     // co ma zrobic w wypadku kiedy jeden klucz ma kilka wartosci
         } catch (IOException e) {
             e.printStackTrace();
-            throw new RuntimeException("there's no properties file in directory: src/main/resources");
+            throw new RuntimeException("there's no properties application.properties file in directory: src/main/resources");
         }
     }
 
@@ -38,6 +38,4 @@ public class PropertiesResolver {
 
         return prop;
     }
-
-
 }

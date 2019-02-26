@@ -5,10 +5,10 @@ Użycie:
     starsza wersją javy
     
     Aby rozpocząć pracę z
-    - pl.nask.agent.component.database.ISharedDatabase
+    - ISharedDatabase
 
     należy zainicjalizować ten interfejs implementacją 
-    - pl.nask.agent.component.database.impl.SharedDatabaseImpl
+    - SharedDatabaseImpl
 
     ISharedDatabase db = new SharedDatabaseImpl
 
@@ -16,7 +16,7 @@ Użycie:
 Wymagania co do encji:
 
 1.  Encja może posiadać typy zadeklarowane w enumie
-    pl.nask.agent.component.database.persistent.DataType
+    DataType
     jeżeli chcesz mimo wszystko w klasie posiadać klasę nie wspieraną,
     możesz oznaczyć ją adnotacją @Transient JPA
     
@@ -73,7 +73,13 @@ np. w taki sposób:
     database.url=jdbc:sqlite:databaseName.sqlite
     database.user=
     database.password=
+    zakladajac ze user i pass sa puste
 
-    
+Testowanie
+
+
+    po kazdym testowaniu nalezy usunac wygenerowana bazę
+
+        
 
 

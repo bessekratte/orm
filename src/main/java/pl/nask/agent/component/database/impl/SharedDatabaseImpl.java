@@ -1,17 +1,15 @@
 package pl.nask.agent.component.database.impl;
 
-import pl.nask.agent.component.database.resolver.PropertiesResolver;
+import pl.nask.agent.component.database.properties.PropertiesResolver;
 import pl.nask.agent.component.database.sql.creator.InsertStatement;
 import pl.nask.agent.component.database.sql.creator.SelectStatement;
-import pl.nask.agent.component.database.sql.creator.UpdateStatement;
-import pl.nask.agent.component.database.sql.creator.CreateTableStatementWithAnnotations;
 import pl.nask.agent.component.database.sql.executors.CreateTableExecutor;
 import pl.nask.agent.component.database.sql.executors.InsertExecutor;
 import pl.nask.agent.component.database.sql.executors.SelectExecutor;
-import pl.nask.agent.component.database.ISharedDatabase;
 import pl.nask.agent.component.database.sql.executors.UpdateExecutor;
-
-import java.nio.file.Paths;
+import pl.nask.agent.component.database.sql.creator.UpdateStatement;
+import pl.nask.agent.component.database.sql.creator.CreateTableStatementWithAnnotations;
+import pl.nask.agent.component.database.ISharedDatabase;
 
 public class SharedDatabaseImpl implements ISharedDatabase {
 
@@ -27,7 +25,6 @@ public class SharedDatabaseImpl implements ISharedDatabase {
 
     @Override
     public void createTable(Class<?> tClass) {
-        System.out.println(Paths.get("").toAbsolutePath());
         String sql = CreateTableStatementWithAnnotations.buildCreateTableSQL(tClass);
         CreateTableExecutor.executeCreateTable(DATABASE_URL, DATABASE_USER, DATABASE_PASSWORD, sql);
     }

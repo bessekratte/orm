@@ -14,11 +14,12 @@ public class ReflectedSettersTest {
     @Test
     public void doSetters() {
         Map<String, Object> map = new HashMap<>();
-        map.put("name", "Mateusz");
-        map.put("lastName", "Kierznowski");
+        map.put("name", "Jan");
+        map.put("lastName", "Kowalski");
         map.put("age", 20);
         Object object = ReflectedSetters.doSetters(MojaKlasaTestowa.class, map);
-        System.out.println(object);
+        assertEquals(new MojaKlasaTestowa("Jan", "Kowalski", 20),
+                object);
     }
 
     @Test

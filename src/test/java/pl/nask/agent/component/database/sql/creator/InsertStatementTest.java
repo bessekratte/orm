@@ -1,7 +1,6 @@
 package pl.nask.agent.component.database.sql.creator;
 
 import org.junit.Test;
-import pl.nask.agent.component.database.data.entity.MojaKlasaTestowa;
 import pl.nask.agent.component.database.data.entity.MojaKlasaTestowa2;
 
 import static org.junit.Assert.*;

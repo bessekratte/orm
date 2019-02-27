@@ -34,7 +34,7 @@ public class PropertiesResolver {
     public static String getProperty(String key){
         String prop = properties.get(key);
         if (prop == null)
-            throw new RuntimeException("there's no [" + "] property in properties");
+            throw new RuntimeException("there's no [" + key + "] property in properties");
 
         return prop;
     }

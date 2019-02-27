@@ -22,6 +22,7 @@ public class ReflectedObject {
     private List<Field> fields;
     private List<Method> methods;
 
+    // TODO: 26.02.19 logika nie odpowiednia do odpowiedzialnosci konstruktora
     private ReflectedObject(Class<?> rClass) {
 
         fields = Arrays.stream(rClass.getDeclaredFields())

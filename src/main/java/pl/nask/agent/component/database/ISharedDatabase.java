@@ -7,6 +7,9 @@ public interface ISharedDatabase {
     boolean update(Object o);
     Object select(Class<?> tClass, Object id);
 
+    //TODO: [MKi] brakuje metody boolean remove(Object o)
+
+
 /*
 // TODO: 19.02.19 docelowa implementacja
 import pl.nask.agent.common.core.domain.IEntity;

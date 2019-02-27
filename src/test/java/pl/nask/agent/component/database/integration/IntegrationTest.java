@@ -1,5 +1,6 @@
 package pl.nask.agent.component.database.integration;
 
+import org.junit.After;
 import org.junit.Test;
 import pl.nask.agent.component.database.data.entity.ExampleEntityIdIsInt;
 import pl.nask.agent.component.database.ISharedDatabase;
@@ -20,15 +21,27 @@ public class IntegrationTest {
     creating -> inserting -> updating -> selecting data
     */
 
+    private SharedDatabaseImpl db;
+    private ExampleEntityIdIsString entity;
+    private ExampleEntityIdIsInt entity2;
+
+    public IntegrationTest() {
+        db = new SharedDatabaseImpl();
+    }
+
+    @After
+    public void tearDown() {
+        //TODO: [MKi] trzeba zrobic czyszczenie tabel po wykonaniu testu np. db.remove(entity2)
+    }
+
     @Test
     public void integrationTest() {
-        ISharedDatabase db = new SharedDatabaseImpl();
 
         //create table
         db.createTable(ExampleEntityIdIsString.class);
 
         //create object
-        ExampleEntityIdIsString entity = new ExampleEntityIdIsString("aaa", 10, 20, "sample", LocalDateTime.now(), Paths.get(""));
+        entity = new ExampleEntityIdIsString("aaa", 10, 20, "sample", LocalDateTime.now(), Paths.get(""));
 
         //insert to db
         db.insert(entity);
@@ -51,10 +64,10 @@ public class IntegrationTest {
         db.createTable(ExampleEntityIdIsInt.class);
 
         //create object
-        ExampleEntityIdIsInt entity = new ExampleEntityIdIsInt(10, 20, "sample", LocalDateTime.now(), Paths.get(""));
+        entity2 = new ExampleEntityIdIsInt(10, 20, "sample", LocalDateTime.now(), Paths.get(""));
 
         //get id
-        Object id = db.insert(entity);
+        Object id = db.insert(entity2);
 
         //select from db
         ExampleEntityIdIsInt select = (ExampleEntityIdIsInt) db.select(ExampleEntityIdIsInt.class, id);

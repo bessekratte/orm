@@ -58,6 +58,14 @@ public enum DataType {
             BooleanMapper.getInstance(),
             BooleanResultSetDispatcher.getInstance());
 
+// TODO: 27.02.19 w budowie mozliwosc dodawania enumow
+/*
+    ENUM(
+            null,
+            SqlType.VARCHAR,
+    )
+*/
+
     private Class<?> classType;
     private SqlType sqlType;
     private PersistentMapper mapper;

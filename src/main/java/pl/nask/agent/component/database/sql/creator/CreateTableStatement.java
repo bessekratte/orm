@@ -6,7 +6,7 @@ import pl.nask.agent.component.database.reflection.ReflectedAnnotations;
 import java.lang.reflect.Field;
 import java.util.List;
 
-public class CreateTableStatementWithAnnotations {
+public class CreateTableStatement {
 
     public static String buildCreateTableSQL(Class tClass){
         StringBuilder sql = new StringBuilder();
@@ -26,7 +26,7 @@ public class CreateTableStatementWithAnnotations {
         Field idField = ReflectedAnnotations.getFieldBeingId(tClass);
         sql.append(idField.getName());
         sql.append(" ");
-        sql.append(makeObjectDatabaseWritable(idField));
+        sql.append(makeClassDatabaseWritable(idField));
         sql.append(" ");
         sql.append("PRIMARY KEY, ");
         return sql.toString();
@@ -38,7 +38,7 @@ public class CreateTableStatementWithAnnotations {
         fields.forEach(field -> {
             sql.append(field.getName());
             sql.append(" ");
-            sql.append(makeObjectDatabaseWritable(field));
+            sql.append(makeClassDatabaseWritable(field));
             sql.append(", ");
         });
         sql.delete(sql.length() - 2, sql.length());
@@ -46,7 +46,7 @@ public class CreateTableStatementWithAnnotations {
         return sql.toString();
     }
 
-    public static String makeObjectDatabaseWritable(Field idField) {
+    public static String makeClassDatabaseWritable(Field idField) {
         return DataType.stream().filter(dataType -> dataType.getClassType().equals(idField.getType()))
                 .findFirst()
                 .orElseThrow(RuntimeException::new)

@@ -12,7 +12,7 @@ public class InsertExecutor {
             if (rs.next()) {
                 return rs.getObject(1);
             } else {
-                throw new RuntimeException("problem z insertowaniem"); //TODO: w tescie trzeba sprawdzic co sie stanie gdy utworzymy tabele bez id korzystajacego z mechnizmow autoinkrementacji np. tabela: id:String, imie: String, nazwisko: String
+                throw new RuntimeException("problem z insertowaniem");
             }
         } catch (SQLException e) {
             e.printStackTrace();

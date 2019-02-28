@@ -1,14 +1,8 @@
 package pl.nask.agent.component.database.impl;
 
 import pl.nask.agent.component.database.properties.PropertiesResolver;
-import pl.nask.agent.component.database.sql.creator.InsertStatement;
-import pl.nask.agent.component.database.sql.creator.SelectStatement;
-import pl.nask.agent.component.database.sql.executors.CreateTableExecutor;
-import pl.nask.agent.component.database.sql.executors.InsertExecutor;
-import pl.nask.agent.component.database.sql.executors.SelectExecutor;
-import pl.nask.agent.component.database.sql.executors.UpdateExecutor;
-import pl.nask.agent.component.database.sql.creator.UpdateStatement;
-import pl.nask.agent.component.database.sql.creator.CreateTableStatementWithAnnotations;
+import pl.nask.agent.component.database.sql.creator.*;
+import pl.nask.agent.component.database.sql.executors.*;
 import pl.nask.agent.component.database.ISharedDatabase;
 
 public class SharedDatabaseImpl implements ISharedDatabase {
@@ -25,7 +19,7 @@ public class SharedDatabaseImpl implements ISharedDatabase {
 
     @Override
     public void createTable(Class<?> tClass) {
-        String sql = CreateTableStatementWithAnnotations.buildCreateTableSQL(tClass);
+        String sql = CreateTableStatement.buildCreateTableSQL(tClass);
         CreateTableExecutor.executeCreateTable(DATABASE_URL, DATABASE_USER, DATABASE_PASSWORD, sql);
     }
 
@@ -33,6 +27,12 @@ public class SharedDatabaseImpl implements ISharedDatabase {
     public Object insert(Object o) {
         String sql = InsertStatement.getInsertSQL(o);
         return InsertExecutor.executeInsert(DATABASE_URL, DATABASE_USER, DATABASE_PASSWORD, sql);
+    }
+
+    @Override
+    public boolean remove(Object o) {
+        String sql = RemoveStatement.getDeleteSql(o);
+        return RemoveExecutor.executeRemove(DATABASE_URL, DATABASE_USER, DATABASE_PASSWORD, sql);
     }
 
     @Override

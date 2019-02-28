@@ -17,7 +17,6 @@ public class BooleanResultSetDispatcher implements ResultSetDispatcher {
 
     @Override
     public Object invokeResultSetGetter(ResultSet rs, String columnName) {
-
         try {
             return rs.getInt(columnName);
         } catch (SQLException e) {

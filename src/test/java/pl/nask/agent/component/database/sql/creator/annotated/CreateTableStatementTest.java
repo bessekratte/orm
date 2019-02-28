@@ -3,7 +3,7 @@ package pl.nask.agent.component.database.sql.creator.annotated;
 import org.junit.Test;
 import pl.nask.agent.component.database.data.entity.MojaKlasaTestowaRozszerzona;
 import pl.nask.agent.component.database.reflection.ReflectedAnnotations;
-import pl.nask.agent.component.database.sql.creator.CreateTableStatementWithAnnotations;
+import pl.nask.agent.component.database.sql.creator.CreateTableStatement;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 
 import static org.junit.Assert.*;
 
-public class CreateTableStatementWithAnnotationsTest {
+public class CreateTableStatementTest {
 
     // TODO: 19.02.19 testy do poprawy
     @Test
@@ -35,7 +35,7 @@ public class CreateTableStatementWithAnnotationsTest {
 
     @Test
     public void buildCreateTableSQL() {
-        String s = CreateTableStatementWithAnnotations.buildCreateTableSQL(MojaKlasaTestowaRozszerzona.class);
+        String s = CreateTableStatement.buildCreateTableSQL(MojaKlasaTestowaRozszerzona.class);
         assertEquals(
                 "CREATE TABLE IF NOT EXISTS mojaklasatestowarozszerzona " +
                         "(id VARCHAR PRIMARY KEY, " +

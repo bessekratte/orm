@@ -3,4 +3,3 @@ target
 *.idea
 *.sqlite
 .idea
-src/main/resources

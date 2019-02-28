@@ -1,6 +1,6 @@
 package pl.nask.agent.component.database.integration;
 
-import org.junit.After;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import pl.nask.agent.component.database.data.entity.ExampleEntityIdIsInt;
 import pl.nask.agent.component.database.ISharedDatabase;
@@ -16,67 +16,65 @@ import static org.junit.Assert.assertNull;
 
 public class IntegrationTest {
 
-    /*
-    integrationTest mean testing
-    creating -> inserting -> updating -> selecting data
-    */
+    private static SharedDatabaseImpl db;
+    private ExampleEntityIdIsString objectString;
+    private ExampleEntityIdIsInt objectInt;
 
-    private SharedDatabaseImpl db;
-    private ExampleEntityIdIsString entity;
-    private ExampleEntityIdIsInt entity2;
-
-    public IntegrationTest() {
+    //runs once
+    @BeforeClass
+    public static void init() {
         db = new SharedDatabaseImpl();
     }
 
-    @After
-    public void tearDown() {
-        //TODO: [MKi] trzeba zrobic czyszczenie tabel po wykonaniu testu np. db.remove(entity2)
-    }
-
     @Test
-    public void integrationTest() {
+    public void insertAndSelectAndDeleteEntityWithStringIdSuccessTest() {
 
         //create table
         db.createTable(ExampleEntityIdIsString.class);
 
         //create object
-        entity = new ExampleEntityIdIsString("aaa", 10, 20, "sample", LocalDateTime.now(), Paths.get(""));
+        objectString = new ExampleEntityIdIsString("aaa", 10, 20, "sample", LocalDateTime.now(), Paths.get(""));
 
         //insert to db
-        db.insert(entity);
+        db.insert(objectString);
 
         //select from db
-        ExampleEntityIdIsString select = (ExampleEntityIdIsString) db.select(ExampleEntityIdIsString.class, "aaa");
+        objectString = (ExampleEntityIdIsString) db.select(ExampleEntityIdIsString.class, "aaa");
 
         //assertEquality
-        assertEquals(select.getAge(), 10);
-        assertEquals(select.getDoubledAge(), Integer.valueOf(20));
-        assertEquals(select.getSampleTest(), "sample");
-        assertEquals(select.getIdentify(), "aaa");
+        assertEquals(objectString.getAge(), 10);
+        assertEquals(objectString.getDoubledAge(), Integer.valueOf(20));
+        assertEquals(objectString.getSampleTest(), "sample");
+        assertEquals(objectString.getIdentify(), "aaa");
+
+        //delete object
+        db.remove(objectString);
     }
 
     @Test
-    public void integrationTest2() {
+    public void insertAndSelectAndDeleteEntityWithIntIdSuccessTest() {
         ISharedDatabase db = new SharedDatabaseImpl();
 
         //create table
         db.createTable(ExampleEntityIdIsInt.class);
 
         //create object
-        entity2 = new ExampleEntityIdIsInt(10, 20, "sample", LocalDateTime.now(), Paths.get(""));
+        objectInt = new ExampleEntityIdIsInt(10, 20, "sample", LocalDateTime.now(), Paths.get(""));
 
         //get id
-        Object id = db.insert(entity2);
+        Object id = db.insert(objectInt);
 
         //select from db
-        ExampleEntityIdIsInt select = (ExampleEntityIdIsInt) db.select(ExampleEntityIdIsInt.class, id);
+        objectInt = (ExampleEntityIdIsInt) db.select(ExampleEntityIdIsInt.class, id);
 
         //assertEquality
-        assertEquals(select.getAge(), 10);
-        assertEquals(select.getDoubledAge(), Integer.valueOf(20));
-        assertEquals(select.getSampleTest(), "sample");
-        assertNull(select.getPath());
+        assertEquals(objectInt.getAge(), 10);
+        assertEquals(objectInt.getDoubledAge(), Integer.valueOf(20));
+        assertEquals(objectInt.getSampleTest(), "sample");
+        assertNull(objectInt.getPath());
+
+        //delete object
+        db.remove(objectInt);
     }
 
     @Test
@@ -108,5 +106,8 @@ public class IntegrationTest {
         assertEquals(select.getLastName(), "nameLast");
         assertEquals(select.getName(), "notName");
         assertNull(select.getNaS());
+
+        //delete
+        db.remove(select);
     }
 }

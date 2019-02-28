@@ -78,7 +78,7 @@ public class IntegrationTest {
     }
 
     @Test
-    public void integrationTest3() {
+    public void insertSelectUpdateDeleteSuccessTest() {
         ISharedDatabase db = new SharedDatabaseImpl();
 
         //create table

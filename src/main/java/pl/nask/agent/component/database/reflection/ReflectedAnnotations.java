@@ -19,6 +19,7 @@ public class ReflectedAnnotations {
                 .findFirst().orElseThrow(NoIdFieldInEntity::new);
     }
 
+    // TODO: 28.02.19 zaptytac sie kogos czy taka walidacja jak na dole (adnotacja.toString() i .equals()) jest spoko
     public static List<Field> getNotTransientFields(Class tClass) {
 
         return Arrays.stream(tClass.getDeclaredFields())

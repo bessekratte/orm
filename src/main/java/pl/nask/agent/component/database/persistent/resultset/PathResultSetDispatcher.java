@@ -3,30 +3,29 @@ package pl.nask.agent.component.database.persistent.resultset;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class TimestampResultSetDispatcher implements ResultSetDispatcher {
+@Deprecated
+public class PathResultSetDispatcher implements ResultSetDispatcher{
 
-    private static final TimestampResultSetDispatcher instance;
+    private static final PathResultSetDispatcher instance;
 
     static {
-        instance = new TimestampResultSetDispatcher();
+        instance = new PathResultSetDispatcher();
     }
 
-    public static TimestampResultSetDispatcher getInstance() {
+    public static PathResultSetDispatcher getInstance() {
         return instance;
     }
 
     @Override
     public Object invokeResultSetGetter(ResultSet rs, String columnName) {
         try {
-            return rs.getTimestamp(columnName);
+            return rs.getString(columnName);
         } catch (SQLException e) {
             throw new RuntimeException(e + "couldn't retrieve " + columnName + " from database");
         }
-
     }
 
-    private TimestampResultSetDispatcher() {
-
+    private PathResultSetDispatcher() {
     }
 
 }

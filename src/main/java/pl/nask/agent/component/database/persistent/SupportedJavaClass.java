@@ -5,12 +5,13 @@ import pl.nask.agent.component.database.persistent.mappers.*;
 import pl.nask.agent.component.database.persistent.resultset.*;
 import pl.nask.agent.component.database.persistent.sql.SqlType;
 
+import java.nio.file.Path;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.stream.Stream;
 
 @Getter
-public enum DataType {
+public enum SupportedJavaClass {
 
     /**
      * All supported types
@@ -44,19 +45,26 @@ public enum DataType {
             LocalDateTime.class,
             SqlType.TIMESTAMP,
             LocalDateTimeMapper.getInstance(),
-            LocalDateTimeResultSetDispatcher.getInstance()),
+            TimestampResultSetDispatcher.getInstance()),
 
     BOOLEAN(
             Boolean.class,
             SqlType.INTEGER,
             BooleanMapper.getInstance(),
-            BooleanResultSetDispatcher.getInstance()),
+            IntResultSetDispatcher.getInstance()),
 
     BOOL(
             boolean.class,
             SqlType.INTEGER,
             BooleanMapper.getInstance(),
-            BooleanResultSetDispatcher.getInstance());
+            IntResultSetDispatcher.getInstance()),
+
+    PATH(
+            Path.class,
+            SqlType.VARCHAR,
+            PathMapper.getInstance(),
+            StringResultSetDispatcher.getInstance()
+    );
 
 // TODO: 27.02.19 w budowie mozliwosc dodawania enumow
 /*
@@ -71,14 +79,14 @@ public enum DataType {
     private PersistentMapper mapper;
     private ResultSetDispatcher resultsetDispatcher;
 
-    DataType(Class<?> classType, SqlType sqlType, PersistentMapper mapper, ResultSetDispatcher resultsetDispatcher) {
+    SupportedJavaClass(Class<?> classType, SqlType sqlType, PersistentMapper mapper, ResultSetDispatcher resultsetDispatcher) {
         this.classType = classType;
         this.sqlType = sqlType;
         this.mapper = mapper;
         this.resultsetDispatcher = resultsetDispatcher;
     }
 
-    public static Stream<DataType> stream() {
-        return Stream.of(DataType.values());
+    public static Stream<SupportedJavaClass> stream() {
+        return Stream.of(SupportedJavaClass.values());
     }
 }

@@ -2,7 +2,7 @@ package pl.nask.agent.component.database.persistent.resultset;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
+@Deprecated
 public class LocalDateTimeResultSetDispatcher implements ResultSetDispatcher {
 
     private static final LocalDateTimeResultSetDispatcher instance;

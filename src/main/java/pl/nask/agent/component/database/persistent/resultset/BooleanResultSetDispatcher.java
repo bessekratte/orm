@@ -3,6 +3,7 @@ package pl.nask.agent.component.database.persistent.resultset;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+@Deprecated
 public class BooleanResultSetDispatcher implements ResultSetDispatcher {
 
     private static final BooleanResultSetDispatcher instance;

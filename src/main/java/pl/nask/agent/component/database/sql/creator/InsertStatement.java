@@ -1,7 +1,7 @@
 package pl.nask.agent.component.database.sql.creator;
 
 import pl.nask.agent.component.database.reflection.ReflectedGetters;
-import pl.nask.agent.component.database.persistent.DataType;
+import pl.nask.agent.component.database.persistent.SupportedJavaClass;
 import pl.nask.agent.component.database.reflection.ReflectedAnnotations;
 
 import java.lang.reflect.Field;
@@ -63,7 +63,7 @@ public class InsertStatement {
     // TODO: 22.02.19 przebudowa metody jest konieczna
     public static Object mapObject(Map<String, Object> fieldToValueMap, String key) {
 
-        return DataType.stream()
+        return SupportedJavaClass.stream()
                 .filter(anm -> anm.getClassType().equals(fieldToValueMap.get(key).getClass()))
                 .findFirst()
                 .orElseThrow(RuntimeException::new)

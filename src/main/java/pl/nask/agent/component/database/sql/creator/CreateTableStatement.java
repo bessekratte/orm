@@ -1,6 +1,6 @@
 package pl.nask.agent.component.database.sql.creator;
 
-import pl.nask.agent.component.database.persistent.DataType;
+import pl.nask.agent.component.database.persistent.SupportedJavaClass;
 import pl.nask.agent.component.database.reflection.ReflectedAnnotations;
 
 import java.lang.reflect.Field;
@@ -47,7 +47,7 @@ public class CreateTableStatement {
     }
 
     public static String makeClassDatabaseWritable(Field idField) {
-        return DataType.stream().filter(dataType -> dataType.getClassType().equals(idField.getType()))
+        return SupportedJavaClass.stream().filter(supportedJavaClass -> supportedJavaClass.getClassType().equals(idField.getType()))
                 .findFirst()
                 .orElseThrow(RuntimeException::new)
                 .getSqlType()

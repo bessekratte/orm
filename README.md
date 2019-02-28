@@ -1,6 +1,7 @@
 Użycie:
-
-    twój kod musi kompilować sie Javą 11, 
+    
+    Komponent ten został skompilowany Java 11, więc twój kod 
+    także musi kompilować sie Javą 11, 
     błąd o niezgodności wersji bytecodu jest oznaką, że kompilujesz kod
     starsza wersją javy
     
@@ -11,7 +12,6 @@ Użycie:
     - SharedDatabaseImpl
 
     ISharedDatabase db = new SharedDatabaseImpl
-
 
 Wymagania co do encji:
 

@@ -1,6 +1,6 @@
 package pl.nask.agent.component.database.sql.executors;
 
-import pl.nask.agent.component.database.persistent.DataType;
+import pl.nask.agent.component.database.persistent.SupportedJavaClass;
 import pl.nask.agent.component.database.reflection.ReflectedObject;
 import pl.nask.agent.component.database.reflection.ReflectedSetters;
 
@@ -26,15 +26,15 @@ public class SelectExecutor {
                     .collect(Collectors.toMap(Map.Entry::getKey,
                             fieldType -> {
 
-                                DataType dataType = DataType.stream()
+                                SupportedJavaClass supportedJavaClass = SupportedJavaClass.stream()
                                         .filter(data -> data.getClassType().equals(fieldType.getValue()))
                                         .findFirst()
                                         .orElseThrow(RuntimeException::new);
 
-                                Object result = dataType.getResultsetDispatcher()
+                                Object result = supportedJavaClass.getResultsetDispatcher()
                                         .invokeResultSetGetter(rs, fieldType.getKey());
 
-                                result = dataType.getMapper()
+                                result = supportedJavaClass.getMapper()
                                         .convertToJavaClass(result);
 
                                 return result;

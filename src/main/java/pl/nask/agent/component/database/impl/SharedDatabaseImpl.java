@@ -3,7 +3,7 @@ package pl.nask.agent.component.database.impl;
 import pl.nask.agent.component.database.properties.PropertiesResolver;
 import pl.nask.agent.component.database.sql.creator.*;
 import pl.nask.agent.component.database.sql.executors.*;
-import pl.nask.agent.component.database.ISharedDatabase;
+import pl.nask.agent.component.api.database.ISharedDatabase;
 
 public class SharedDatabaseImpl implements ISharedDatabase {
 

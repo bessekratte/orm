@@ -3,7 +3,7 @@ package pl.nask.agent.component.database.integration;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import pl.nask.agent.component.database.data.entity.ExampleEntityIdIsInt;
-import pl.nask.agent.component.database.ISharedDatabase;
+import pl.nask.agent.component.api.database.ISharedDatabase;
 import pl.nask.agent.component.database.data.entity.ExampleEntityIdIsString;
 import pl.nask.agent.component.database.data.entity.MojaKlasaTestowa2;
 import pl.nask.agent.component.database.impl.SharedDatabaseImpl;

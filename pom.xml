@@ -40,6 +40,11 @@
       <version>2.2</version>
       <scope>provided</scope>
     </dependency>
+    <dependency>
+      <groupId>pl.nask.agent.component.api</groupId>
+      <artifactId>api</artifactId>
+      <version>1.0.0</version>
+    </dependency>
   </dependencies>
 
   <build>

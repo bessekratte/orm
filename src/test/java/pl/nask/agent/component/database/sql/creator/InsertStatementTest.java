@@ -9,7 +9,7 @@ public class InsertStatementTest {
 
     @Test
     public void getInsertObjectSQL() {
-        assertEquals("INSERT INTO mojaklasatestowa2 (\"lastname\", \"name\") VALUES (\"lastName\", \"name\");",
+        assertEquals("INSERT INTO mojaklasatestowa2 (\"name\", \"lastname\") VALUES (\"name\", \"lastName\");",
                 InsertStatement.getInsertSQL(new MojaKlasaTestowa2("naS", "name", "lastName")));
     }
 }

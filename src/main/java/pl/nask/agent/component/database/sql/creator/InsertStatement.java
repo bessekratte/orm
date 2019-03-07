@@ -1,7 +1,7 @@
 package pl.nask.agent.component.database.sql.creator;
 
+import pl.nask.agent.component.database.persistent.JavaToDatabaseConverter;
 import pl.nask.agent.component.database.reflection.ReflectedGetters;
-import pl.nask.agent.component.database.persistent.SupportedJavaClass;
 import pl.nask.agent.component.database.reflection.ReflectedAnnotations;
 
 import java.lang.reflect.Field;
@@ -29,6 +29,8 @@ public class InsertStatement {
             map.remove(field.getName());
         }
 
+        map = JavaToDatabaseConverter.makeJavaObjectsDatabaseReadable(map);
+
         return buildInsertStatement(tableName, map);
     }
 
@@ -48,8 +50,7 @@ public class InsertStatement {
 
         fieldToValueMap.forEach((key, value) -> {
             sql.append("\"");
-//            sql.append(fieldToValueMap.get(key));
-            sql.append(mapObject(fieldToValueMap, key));
+            sql.append(value);
             sql.append("\"");
             sql.append(", ");
         });
@@ -60,14 +61,4 @@ public class InsertStatement {
         return sql.toString();
     }
 
-    // TODO: 22.02.19 przebudowa metody jest konieczna
-    public static Object mapObject(Map<String, Object> fieldToValueMap, String key) {
-
-        return SupportedJavaClass.stream()
-                .filter(anm -> anm.getClassType().equals(fieldToValueMap.get(key).getClass()))
-                .findFirst()
-                .orElseThrow(RuntimeException::new)
-                .getMapper()
-                .convertToDatabaseColumn(fieldToValueMap.get(key));
-    }
 }

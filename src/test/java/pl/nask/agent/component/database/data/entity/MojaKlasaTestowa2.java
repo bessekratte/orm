@@ -3,6 +3,7 @@ package pl.nask.agent.component.database.data.entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import pl.nask.agent.component.api.database.domain.IEntity;
 
 import javax.persistence.Id;
 import javax.persistence.Transient;
@@ -11,7 +12,7 @@ import javax.persistence.Transient;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class MojaKlasaTestowa2 {
+public class MojaKlasaTestowa2 implements IEntity {
 
     @Id
     private int id;

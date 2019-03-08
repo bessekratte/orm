@@ -20,6 +20,7 @@ public class InsertStatement {
         jest intem lub integerem (trzeba moze zrobic tez inne typy numeryczne)
         w celu usuniecia go z sql-a insertowego, dzieki czemu
         sqlite sam wygeneruje dla niego wartosc z-auto-inkrementowana
+        jest to wazn funkcjonalnosc ale nie moze znajowac sie w takim miejscu
         */
 
         Field field = ReflectedAnnotations.getFieldBeingId(object.getClass());

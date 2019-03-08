@@ -4,6 +4,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import pl.nask.agent.component.api.database.ISharedDatabase;
 import pl.nask.agent.component.database.data.entity.ExampleEntityIdIsInt;
 import pl.nask.agent.component.database.data.entity.ExampleEntityIdIsString;
 import pl.nask.agent.component.database.data.entity.MojaKlasaTestowa2;
@@ -16,7 +17,7 @@ import static org.junit.Assert.*;
 
 public class IntegrationTest {
 
-    private static SharedDatabaseImpl db;
+    private static ISharedDatabase db;
 
     private ExampleEntityIdIsString testingObjectOne;
     private ExampleEntityIdIsInt testingObjectTwo;
@@ -107,24 +108,24 @@ public class IntegrationTest {
         assertTrue(db.update(testingObjectTwo));
         assertTrue(db.update(testingObjectThree));
 
-        //once again select from db
+        // once again select from db
         testingObjectOne = (ExampleEntityIdIsString) db.select(ExampleEntityIdIsString.class, "aaa");
         testingObjectTwo = (ExampleEntityIdIsInt) db.select(ExampleEntityIdIsInt.class, idTwo);
         testingObjectThree = (MojaKlasaTestowa2) db.select(MojaKlasaTestowa2.class, idThree);
 
-        //assertEqualityFirstObject
+        // assertEqualityFirstObject
         assertEquals(testingObjectOne.getAge(), 100);
         assertEquals(testingObjectOne.getDoubledAge(), Integer.valueOf(200));
         assertEquals(testingObjectOne.getSampleTest(), "testingObjectOne");
         assertEquals(testingObjectOne.getIdentify(), "aaa");
 
-        //assertEqualitySecondObject
+        // assertEqualitySecondObject
         assertEquals(testingObjectTwo.getAge(), 100);
         assertEquals(testingObjectTwo.getDoubledAge(), Integer.valueOf(200));
         assertEquals(testingObjectTwo.getSampleTest(), "testingObjectTwo");
         assertNull(testingObjectTwo.getPath());
 
-//        assertEqualityThreeObject
+        // assertEqualityThreeObject
         assertEquals(testingObjectThree.getLastName(), "nameLast");
         assertEquals(testingObjectThree.getName(), "notName");
         assertNull(testingObjectThree.getNaS());

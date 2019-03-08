@@ -2,11 +2,13 @@ package pl.nask.agent.component.database.data.entity;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import pl.nask.agent.component.api.database.domain.IEntity;
+
 import javax.persistence.Id;
 
 @Data
 @NoArgsConstructor
-public class MojaKlasaPrawdaFalsz {
+public class MojaKlasaPrawdaFalsz implements IEntity {
 
     @Id
     private int id;

@@ -8,6 +8,14 @@
   <artifactId>database</artifactId>
   <version>2.1</version>
 
+  <distributionManagement>
+    <repository>
+      <id>snapshots</id>
+      <name>NASK artifactory snapshots</name>
+      <url>http://nart.chomutowski.pl/artifactory/gradle-dev-local</url>
+    </repository>
+  </distributionManagement>
+
   <dependencies>
     <dependency>
       <groupId>org.assertj</groupId>

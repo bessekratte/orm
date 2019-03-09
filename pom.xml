@@ -47,9 +47,9 @@
       <scope>provided</scope>
     </dependency>
     <dependency>
-      <groupId>pl.nask.agent.component.api</groupId>
+      <groupId>pl.nask.agent.component</groupId>
       <artifactId>api</artifactId>
-      <version>1.0.2</version>
+      <version>1.0.3</version>
     </dependency>
   </dependencies>
 

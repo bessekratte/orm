@@ -26,6 +26,7 @@ public class PropertiesResolver {
                     .filter(property -> !property.startsWith("#"))
                     .filter(property -> !property.startsWith("\n"))
                     .filter(property -> !property.startsWith(" "))
+                    .filter(property -> !property.equals(""))
                     .collect(Collectors.toMap(
                     (String key) -> key.substring(0, key.indexOf("=")).trim(),          // tworzenie klucza
                     (String value) -> value.substring(value.indexOf("=") + 1).trim(),   // tworzenie wartosci

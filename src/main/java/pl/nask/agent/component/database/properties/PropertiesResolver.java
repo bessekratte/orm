@@ -21,7 +21,13 @@ public class PropertiesResolver {
     private static Map<String, String> loadProperties() {
         Path properties = Paths.get("src/main/resources/application.properties");
         try {
-            return Files.lines(properties).collect(Collectors.toMap(
+            return Files.lines(properties)
+                    .filter(property -> !property.startsWith("/"))
+                    .filter(property -> !property.startsWith("#"))
+                    .filter(property -> !property.startsWith("\n"))
+                    .filter(property -> !property.startsWith(" "))
+                    .filter(property -> !property.equals(""))
+                    .collect(Collectors.toMap(
                     (String key) -> key.substring(0, key.indexOf("=")).trim(),          // tworzenie klucza
                     (String value) -> value.substring(value.indexOf("=") + 1).trim(),   // tworzenie wartosci
                     (valueFirst, valueSecond) -> valueFirst + ", " + valueSecond));     // co ma zrobic w wypadku kiedy jeden klucz ma kilka wartosci
@@ -35,7 +41,6 @@ public class PropertiesResolver {
         String prop = properties.get(key);
         if (prop == null)
             throw new RuntimeException("there's no [" + key + "] property in properties");
-
         return prop;
     }
 }

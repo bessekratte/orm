@@ -6,7 +6,7 @@
 
   <groupId>pl.nask.agent.component</groupId>
   <artifactId>shared-database</artifactId>
-  <version>2.1.3</version>
+  <version>2.1.4</version>
 
   <distributionManagement>
     <repository>
@@ -48,8 +48,8 @@
     </dependency>
     <dependency>
       <groupId>pl.nask.agent.component</groupId>
-      <artifactId>api</artifactId>
-      <version>1.0.3</version>
+      <artifactId>agent-component-api</artifactId>
+      <version>1.0.4</version>
     </dependency>
   </dependencies>
 

@@ -66,13 +66,7 @@ public enum SupportedJavaClass {
             StringResultSetDispatcher.getInstance()
     );
 
-// TODO: 27.02.19 w budowie mozliwosc dodawania enumow
-/*
-    ENUM(
-            null,
-            SqlType.VARCHAR,
-    )
-*/
+// TODO: 27.02.19 zrob enum-y
 
     private Class<?> classType;
     private SqlType sqlType;

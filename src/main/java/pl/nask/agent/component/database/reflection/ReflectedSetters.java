@@ -9,10 +9,10 @@ import java.util.stream.Collectors;
 
 public class ReflectedSetters {
 
-    public static Object doSetters(Class<?> clazz, Map<String, Object> fieldNameToValue) {
+    public static <T> T doSetters(Class<T> clazz, Map<String, Object> fieldNameToValue) {
 
         try {
-            final Object object = clazz.getConstructor().newInstance();
+            final T object = clazz.getConstructor().newInstance();
             Map<String, Method> setterMethodsMap = getMapOfFieldNameToSetterMethod(object.getClass());
 
             fieldNameToValue.keySet().forEach(fieldName -> {
@@ -25,7 +25,6 @@ public class ReflectedSetters {
             });
             return object;
         } catch (Exception e) {
-            // TODO: 11.02.19 zrob wlasna klase wyjatku
             throw new RuntimeException(e);
         }
     }

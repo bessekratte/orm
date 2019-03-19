@@ -19,16 +19,6 @@ public class ReflectedAnnotations {
                 .findFirst().orElseThrow(NoIdFieldInEntity::new);
     }
 
-    // TODO: 28.02.19 zaptytac sie kogos czy taka walidacja jak na dole (adnotacja.toString() i .equals()) jest spoko
-    public static List<Field> getNotTransientFields(Class tClass) {
-
-        return Arrays.stream(tClass.getDeclaredFields())
-                .filter(field ->
-                        Arrays.stream(field.getDeclaredAnnotations())
-                                .noneMatch(annotation -> annotation.toString().equals("@javax.persistence.Transient()")))
-                .collect(Collectors.toList());
-    }
-
     public static List<Field> getNotAnnotatedFields(Class tClass) {
 
         return Arrays.stream(tClass.getDeclaredFields())
@@ -36,13 +26,4 @@ public class ReflectedAnnotations {
                         Arrays.equals(field.getDeclaredAnnotations(), new Annotation[]{}))
                 .collect(Collectors.toList());
     }
-
-    /*
-    public static boolean isFieldAutoincrement(Field field){
-        return Arrays.stream(field.getDeclaredAnnotations())
-                .anyMatch(annotation -> annotation.toString()
-                        // TODO: 18.02.19 jezeli chcesz uzyc jakiegos generatora musisz rozszerzyc metode
-                        .equals("@javax.persistence.GeneratedValue(strategy=AUTO, generator=\"\")"));
-    }
-    */
 }

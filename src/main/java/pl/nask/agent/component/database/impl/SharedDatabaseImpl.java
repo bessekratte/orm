@@ -6,35 +6,29 @@ import pl.nask.agent.component.database.sql.creator.*;
 import pl.nask.agent.component.database.sql.executors.*;
 import pl.nask.agent.component.api.database.ISharedDatabase;
 
-/**
+/*
  * Przykład użycia:
- * <p>
- * public class SomeClass {
- * <p>
- * public static void main(String[] args) {
- * <p>
- * //tworzymy instancje implementacji bazy danych
+ *
+ * Tworzymy instancje implementacji bazy danych
  * ISharedDatabase db = new SharedDatabaseImpl();
- * <p>
- * // Tworzymy obiekt encji ktory chcemy zapisac w bazie danych (kazdy obiekt encji musi implementowac interfejs IEnity)
+
+ * Tworzymy obiekt encji ktory chcemy zapisac w bazie danych (kazdy obiekt encji musi implementowac interfejs IEnity)
  * SomeEntity object = new SomeEntity("Jan", "Kowalski", 56);
- * <p>
- * // Tworzymy tabele w bazie danych dla naszej encjii
+ *
+ * Tworzymy tabele w bazie danych dla naszej encjii
  * db.createTable(SomeEntity.class);
- * <p>
- * // Insertujemy nasz obiekt do bazy danych, dostajac w zamian id pod ktorym bedzie sie ukrywal obiekt w bazie danych
+
+ * Insertujemy nasz obiekt do bazy danych, dostajac w zamian id pod ktorym bedzie sie ukrywal obiekt w bazie danych
  * int id = db.insert(object);
- * <p>
- * // Wydobywamy z bazy danych nasz obiekt, podajac klase obiektu oraz jego id
+
+ * Wydobywamy z bazy danych nasz obiekt, podajac klase obiektu oraz jego id
  * object = db.select(SomeEntity.class, id);
- * <p>
- * // Aktualizujemy pola obiektu
+
+ * Aktualizujemy pola obiektu
  * object.setAge(57);
- * <p>
- * // Aktualizujemy w bazie danych obiekt
+
+ * Aktualizujemy w bazie danych obiekt
  * db.update(object);
- * }
- * }
  */
 
 public class SharedDatabaseImpl<T extends IEntity> implements ISharedDatabase<T> {

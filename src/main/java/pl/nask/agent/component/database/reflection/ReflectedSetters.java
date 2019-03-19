@@ -1,6 +1,7 @@
 package pl.nask.agent.component.database.reflection;
 
 import pl.nask.agent.component.database.exception.NoSuchSetterException;
+import pl.nask.agent.component.database.reflection.registry.ReflectedObjectRegistry;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -31,7 +32,7 @@ public class ReflectedSetters {
 
     public static Map<String, Method> getMapOfFieldNameToSetterMethod(Class clazz) {
 
-        List<String> fieldNames = ReflectedObject.getReflectedObject(clazz)
+        List<String> fieldNames = ReflectedObjectRegistry.getInstance().getReflectedObject(clazz)
                 .getFields()
                 .stream()
                 .map(Field::getName)
@@ -49,7 +50,7 @@ public class ReflectedSetters {
     }
 
     private static List<Method> getClassSetters(Class o) {
-        return ReflectedObject.getReflectedObject(o).getMethods()
+        return ReflectedObjectRegistry.getInstance().getReflectedObject(o).getMethods()
                 .stream().filter(ReflectedSetters::isMethodSetter)
                 .collect(Collectors.toList());
     }

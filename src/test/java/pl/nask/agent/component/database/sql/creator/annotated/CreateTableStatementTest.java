@@ -14,11 +14,11 @@ import static org.junit.Assert.*;
 
 public class CreateTableStatementTest {
 
-    // TODO: 19.02.19 testy do poprawy
     @Test
     public void getFieldBeingId() {
-        Field optional = ReflectedAnnotations.getFieldBeingId(MojaKlasaTestowaRozszerzona.class);
-        assertNotNull(optional);
+        Field fieldBeingId = ReflectedAnnotations.getFieldBeingId(MojaKlasaTestowaRozszerzona.class);
+        assertNotNull(fieldBeingId);
+        assertEquals("id", fieldBeingId.getName());
     }
 
     @Test

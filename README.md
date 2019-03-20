@@ -10,9 +10,22 @@ Użycie:
 
     należy zainicjalizować ten interfejs implementacją 
     - SharedDatabaseImpl
+    
+    ISharedDatabase<MojaEncja> db = new SharedDatabaseImpl<>(MojaEncja.class)
 
-    ISharedDatabase db = new SharedDatabaseImpl
-
+    Niestety, z racji ograniczeń javy i jej kompatybliności wstecznej musimy
+    wywoływać konstrukcje w tak nieelegancki sposób tj.: 
+    
+    
+    - new SharedDatabaseImpl<>(MojaEncja.class), 
+    
+    zamiast 
+    - new SharedDatabaseImpl<>(), 
+    
+    A dzieje się tak, ze względu na potrzebę uzyskania jakiegoś obiektu Encji na kórym będą opierały się 
+    wszystkie operacje, które oferuje interfejs ISharedDatabase. W jakiś sposób na pewno da się to zrobić
+    i uzyskać Typ generyczny w runtime, natomiast ja rozwiązania nie znalazłem
+    
 Wymagania co do encji:
 
     1.  Encja może posiadać typy zadeklarowane w enumie

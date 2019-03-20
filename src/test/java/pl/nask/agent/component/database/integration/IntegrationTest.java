@@ -17,7 +17,10 @@ import static org.junit.Assert.*;
 
 public class IntegrationTest {
 
-    private static ISharedDatabase db;
+    //    private static ISharedDatabase dbForStr;
+    private static ISharedDatabase<ExampleEntityIdIsString> dbForStr;
+    private static ISharedDatabase<ExampleEntityIdIsInt> dbForInt;
+    private static ISharedDatabase<MojaKlasaTestowa2> dbForKlasa;
 
     private ExampleEntityIdIsString testingObjectOne;
     private ExampleEntityIdIsInt testingObjectTwo;
@@ -25,10 +28,9 @@ public class IntegrationTest {
 
     @BeforeClass
     public static void initDatabaseAndTables() {
-        db = new SharedDatabaseImpl();
-        db.createTable(ExampleEntityIdIsString.class);
-        db.createTable(ExampleEntityIdIsInt.class);
-        db.createTable(MojaKlasaTestowa2.class);
+        dbForStr = new SharedDatabaseImpl<>(ExampleEntityIdIsString.class);
+        dbForInt = new SharedDatabaseImpl<>(ExampleEntityIdIsInt.class);
+        dbForKlasa = new SharedDatabaseImpl<>(MojaKlasaTestowa2.class);
     }
 
     //before every test
@@ -42,23 +44,23 @@ public class IntegrationTest {
     //after every test
     @After
     public void removeObjectsFromDatabase() {
-        db.remove(testingObjectOne);
-        db.remove(testingObjectTwo);
-        db.remove(testingObjectThree);
+        dbForStr.remove(testingObjectOne);
+        dbForInt.remove(testingObjectTwo);
+        dbForKlasa.remove(testingObjectThree);
     }
 
     @Test
     public void insertAndSelectSuccessTest() {
 
         //insert zwraca tylko id, kiedy pole id jest typu numerycznego
-        db.insert(testingObjectOne);
-        Object idTwo = db.insert(testingObjectTwo);
-        Object idThree = db.insert(testingObjectThree);
+        dbForStr.insert(testingObjectOne);
+        Object idTwo = dbForInt.insert(testingObjectTwo);
+        Object idThree = dbForKlasa.insert(testingObjectThree);
 
-        //select from db
-        testingObjectOne = (ExampleEntityIdIsString) db.select(ExampleEntityIdIsString.class, "aaa");
-        testingObjectTwo = (ExampleEntityIdIsInt) db.select(ExampleEntityIdIsInt.class, idTwo);
-        testingObjectThree = (MojaKlasaTestowa2) db.select(MojaKlasaTestowa2.class, idThree);
+        //select from dbForStr
+        testingObjectOne = dbForStr.select("aaa");
+        testingObjectTwo = dbForInt.select(idTwo);
+        testingObjectThree = dbForKlasa.select(idThree);
 
         //assertEqualityFirstObject
         assertEquals(testingObjectOne.getAge(), 10);
@@ -82,14 +84,14 @@ public class IntegrationTest {
     public void insertAndSelectAndUpdateSuccessTest() {
 
         //insert zwraca tylko id, kiedy pole id jest typu numerycznego
-        db.insert(testingObjectOne);
-        Object idTwo = db.insert(testingObjectTwo);
-        Object idThree = db.insert(testingObjectThree);
+        dbForStr.insert(testingObjectOne);
+        Object idTwo = dbForInt.insert(testingObjectTwo);
+        Object idThree = dbForKlasa.insert(testingObjectThree);
 
-        //select from db
-        testingObjectOne = (ExampleEntityIdIsString) db.select(ExampleEntityIdIsString.class, "aaa");
-        testingObjectTwo = (ExampleEntityIdIsInt) db.select(ExampleEntityIdIsInt.class, idTwo);
-        testingObjectThree = (MojaKlasaTestowa2) db.select(MojaKlasaTestowa2.class, idThree);
+        //select from dbForStr
+        testingObjectOne = dbForStr.select("aaa");
+        testingObjectTwo = dbForInt.select(idTwo);
+        testingObjectThree = dbForKlasa.select(idThree);
 
         //update objects
         testingObjectOne.setAge(100);
@@ -104,16 +106,15 @@ public class IntegrationTest {
         testingObjectThree.setName("notName");
         testingObjectThree.setNaS("SOS");
 
-        assertTrue(db.update(testingObjectOne));
-        assertTrue(db.update(testingObjectTwo));
-        assertTrue(db.update(testingObjectThree));
+        assertTrue(dbForStr.update(testingObjectOne));
+        assertTrue(dbForInt.update(testingObjectTwo));
+        assertTrue(dbForKlasa.update(testingObjectThree));
 
-        // once again select from db
-        testingObjectOne = (ExampleEntityIdIsString) db.select(ExampleEntityIdIsString.class, "aaa");
-        testingObjectTwo = (ExampleEntityIdIsInt) db.select(ExampleEntityIdIsInt.class, idTwo);
-        testingObjectThree = (MojaKlasaTestowa2) db.select(MojaKlasaTestowa2.class, idThree);
-
-        // assertEqualityFirstObject
+        // once again select from dbForStr
+        testingObjectOne = dbForStr.select("aaa");
+        testingObjectTwo = dbForInt.select(idTwo);
+        testingObjectThree = dbForKlasa.select(idThree);
+        // assertEqualityFirstObjec
         assertEquals(testingObjectOne.getAge(), 100);
         assertEquals(testingObjectOne.getDoubledAge(), Integer.valueOf(200));
         assertEquals(testingObjectOne.getSampleTest(), "testingObjectOne");

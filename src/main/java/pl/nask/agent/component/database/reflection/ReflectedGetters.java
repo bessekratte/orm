@@ -1,5 +1,7 @@
 package pl.nask.agent.component.database.reflection;
 
+import pl.nask.agent.component.database.reflection.registry.ReflectedObjectRegistry;
+
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.*;
@@ -26,8 +28,7 @@ public class ReflectedGetters {
     }
 
     private static List<Method> getClassGetters(Object o) {
-        return ReflectedObject.getReflectedObject(o.getClass()).getMethods()
-                .stream().filter(ReflectedGetters::isMethodGetter)
+        return ReflectedObjectRegistry.getInstance().getReflectedObject(o.getClass()).getMethods().stream().filter(ReflectedGetters::isMethodGetter)
                 .collect(Collectors.toList());
     }
 

@@ -1,6 +1,7 @@
 package pl.nask.agent.component.database.reflection;
 
 import pl.nask.agent.component.database.exception.NoSuchSetterException;
+import pl.nask.agent.component.database.reflection.registry.ReflectedObjectRegistry;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -9,10 +10,10 @@ import java.util.stream.Collectors;
 
 public class ReflectedSetters {
 
-    public static Object doSetters(Class<?> clazz, Map<String, Object> fieldNameToValue) {
+    public static <T> T doSetters(Class<T> clazz, Map<String, Object> fieldNameToValue) {
 
         try {
-            final Object object = clazz.getConstructor().newInstance();
+            final T object = clazz.getConstructor().newInstance();
             Map<String, Method> setterMethodsMap = getMapOfFieldNameToSetterMethod(object.getClass());
 
             fieldNameToValue.keySet().forEach(fieldName -> {
@@ -25,14 +26,13 @@ public class ReflectedSetters {
             });
             return object;
         } catch (Exception e) {
-            // TODO: 11.02.19 zrob wlasna klase wyjatku
             throw new RuntimeException(e);
         }
     }
 
     public static Map<String, Method> getMapOfFieldNameToSetterMethod(Class clazz) {
 
-        List<String> fieldNames = ReflectedObject.getReflectedObject(clazz)
+        List<String> fieldNames = ReflectedObjectRegistry.getInstance().getReflectedObject(clazz)
                 .getFields()
                 .stream()
                 .map(Field::getName)
@@ -50,7 +50,7 @@ public class ReflectedSetters {
     }
 
     private static List<Method> getClassSetters(Class o) {
-        return ReflectedObject.getReflectedObject(o).getMethods()
+        return ReflectedObjectRegistry.getInstance().getReflectedObject(o).getMethods()
                 .stream().filter(ReflectedSetters::isMethodSetter)
                 .collect(Collectors.toList());
     }

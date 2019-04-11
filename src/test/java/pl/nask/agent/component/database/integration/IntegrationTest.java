@@ -8,7 +8,9 @@ import pl.nask.agent.component.api.database.ISharedDatabase;
 import pl.nask.agent.component.database.data.entity.ExampleEntityIdIsInt;
 import pl.nask.agent.component.database.data.entity.ExampleEntityIdIsString;
 import pl.nask.agent.component.database.data.entity.MojaKlasaTestowa2;
-import pl.nask.agent.component.database.impl.SharedDatabaseImpl;
+import pl.nask.agent.component.database.data.entity.repository.ExampleEntityIdIsIntRepository;
+import pl.nask.agent.component.database.data.entity.repository.ExampleEntityIdIsStringRepository;
+import pl.nask.agent.component.database.data.entity.repository.MojaKlasaTestowa2Repository;
 
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
@@ -28,9 +30,9 @@ public class IntegrationTest {
 
     @BeforeClass
     public static void initDatabaseAndTables() {
-        dbForStr = new SharedDatabaseImpl<>(ExampleEntityIdIsString.class);
-        dbForInt = new SharedDatabaseImpl<>(ExampleEntityIdIsInt.class);
-        dbForKlasa = new SharedDatabaseImpl<>(MojaKlasaTestowa2.class);
+        dbForStr = new ExampleEntityIdIsStringRepository();
+        dbForInt = new ExampleEntityIdIsIntRepository();
+        dbForKlasa = new MojaKlasaTestowa2Repository();
     }
 
     //before every test

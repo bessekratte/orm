@@ -1,5 +1,6 @@
 package pl.nask.agent.component.database.sql.executors;
 
+import pl.nask.agent.component.database.exception.NoResultsException;
 import pl.nask.agent.component.database.persistent.JavaToDatabaseConverter;
 import pl.nask.agent.component.database.reflection.ReflectedSetters;
 import pl.nask.agent.component.database.reflection.registry.ReflectedObjectRegistry;
@@ -15,7 +16,10 @@ public class SelectExecutor {
             Connection conn = DriverManager.getConnection(url, user, password);
             Statement st = conn.createStatement();
             ResultSet rs = st.executeQuery(sql);
-            rs.next();
+
+            // TODO: 09.04.19 test ponizej nie jest przetestowany integracyjnie !
+            if (!rs.next())
+                throw new NoResultsException();
 
             Map<String, Class<?>> fieldNameToFieldType = ReflectedObjectRegistry.getInstance().getReflectedObject(clazz).getMapOfFieldNameToFieldType();
 
@@ -32,4 +36,3 @@ public class SelectExecutor {
         }
     }
 }
-

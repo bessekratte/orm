@@ -20,12 +20,10 @@ public class StringResultSetDispatcher implements ResultSetDispatcher {
         try {
             return rs.getString(columnName);
         } catch (SQLException e) {
-            throw new RuntimeException(e + "couldn't retrieve " + columnName + " from database");
+            throw new RuntimeException(e + " couldn't retrieve " + columnName + " from database");
         }
-
     }
 
     private StringResultSetDispatcher() {
-
     }
 }

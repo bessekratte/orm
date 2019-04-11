@@ -1,4 +1,7 @@
 package pl.nask.agent.component.database.data.entity.repository;
 
-public class ExampleEntityIdIsIntRepository {
+import pl.nask.agent.component.database.data.entity.ExampleEntityIdIsInt;
+import pl.nask.agent.component.database.impl.SharedDatabaseImpl;
+
+public class ExampleEntityIdIsIntRepository extends SharedDatabaseImpl<ExampleEntityIdIsInt> {
 }

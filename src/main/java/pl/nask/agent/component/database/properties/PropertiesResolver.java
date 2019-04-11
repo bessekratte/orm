@@ -19,6 +19,7 @@ public class PropertiesResolver {
     }
 
     private static Map<String, String> loadProperties() {
+
         Path properties = Paths.get("src/main/resources/application.properties");
         try {
             return Files.lines(properties)

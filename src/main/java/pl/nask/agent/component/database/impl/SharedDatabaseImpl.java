@@ -1,10 +1,12 @@
 package pl.nask.agent.component.database.impl;
 
+import pl.nask.agent.component.api.database.ISharedDatabase;
 import pl.nask.agent.component.api.database.domain.IEntity;
 import pl.nask.agent.component.database.properties.PropertiesResolver;
 import pl.nask.agent.component.database.sql.creator.*;
 import pl.nask.agent.component.database.sql.executors.*;
-import pl.nask.agent.component.api.database.ISharedDatabase;
+
+import java.lang.reflect.ParameterizedType;
 
 /*
  * Przykład użycia:
@@ -31,7 +33,7 @@ import pl.nask.agent.component.api.database.ISharedDatabase;
  * db.update(object);
  */
 
-public class SharedDatabaseImpl<T extends IEntity> implements ISharedDatabase<T> {
+public abstract class SharedDatabaseImpl<T extends IEntity> implements ISharedDatabase<T> {
 
     private static final String DATABASE_URL;
     private static final String DATABASE_USER;
@@ -45,8 +47,9 @@ public class SharedDatabaseImpl<T extends IEntity> implements ISharedDatabase<T>
         DATABASE_PASSWORD = PropertiesResolver.getProperty("database.password");
     }
 
-    public SharedDatabaseImpl(Class<T> genericClass) {
-        this.genericClass = genericClass;
+    public SharedDatabaseImpl(){
+        this.genericClass = (Class<T>) ((ParameterizedType) getClass()
+                .getGenericSuperclass()).getActualTypeArguments()[0];
         createTable();
     }
 
